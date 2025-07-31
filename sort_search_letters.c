@@ -1,4 +1,4 @@
-//  sorting and searching repetitive letters
+// sorting and searching repetitive letters
 #include <stdio.h>
 
 int main(void){
@@ -9,13 +9,9 @@ int main(void){
     int count = 0;
 
     scanf("%s",word);
-    
-    for(i=0;i<50;i++){
-        if(word[i] == '\0'){
-            n = i;  // set n as len of word
-            break;
-        }
-    }
+   
+    while(word[n] != '\0')
+        n++;
 
     for(j=0;j<n-1;j++){
         for(i=0;i<n-1;i++){
@@ -27,8 +23,8 @@ int main(void){
         }
     }
     
-    printf("\nsorted word:\n");
-    printf("%s\n",word);
+    //printf("\nsorted word:\n");
+    //printf("%s\n",word);
    
     //erroneousnesses
     //eeeennoorrssssu
@@ -37,7 +33,7 @@ int main(void){
     for(i=0;i<n-1;i++){
         if(word[i] == word[i+1]){
             // Trovato inizio di un gruppo
-            printf("%c:%c\n",word[i],word[i+1]);
+            //printf("%c:%c\n",word[i],word[i+1]);
             count++;
             // Salta tutti i caratteri uguali consecutivi
             while(i < n-1 && word[i] == word[i+1]){
