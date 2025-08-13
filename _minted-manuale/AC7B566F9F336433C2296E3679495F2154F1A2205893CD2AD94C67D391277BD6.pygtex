@@ -1,0 +1,110 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Arrays of Structs}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    Now that we know how to create a `struct`, we can create an array of them!}
+\PYG{c+cm}{    This is an extremely common and powerful pattern for managing a collection}
+\PYG{c+cm}{    of related data objects, like a class roster of students, a fleet of cars,}
+\PYG{c+cm}{    or, in this case, the vertices of a polygon.}
+
+\PYG{c+cm}{    This program reads the vertices of a polygon from the user, stores them in}
+\PYG{c+cm}{    an array of `point` structs, and then prints them back out.}
+
+\PYG{c+cm}{    This example merges the logic from two previous files into a more general}
+\PYG{c+cm}{    and robust program.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Declaring an array of `struct`s.}
+\PYG{c+cm}{    \PYGZhy{} Passing an array of `struct`s to a function.}
+\PYG{c+cm}{    \PYGZhy{} Looping through an array of `struct`s to process each element.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{c+c1}{// Function Prototypes}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPolygon}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPolygon}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many vertices does the polygon have? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Basic input validation}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{num\PYGZus{}vertices}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}A polygon must have at least 1 vertex.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Exit with an error}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// A Note on Variable\PYGZhy{}Length Arrays (VLAs):}
+\PYG{+w}{    }\PYG{c+c1}{// `struct point polygon[num\PYGZus{}vertices];` creates a VLA, whose size is}
+\PYG{+w}{    }\PYG{c+c1}{// determined at runtime. While convenient, they are not part of the most}
+\PYG{+w}{    }\PYG{c+c1}{// recent C standards and can be risky if `num\PYGZus{}vertices` is very large.}
+\PYG{+w}{    }\PYG{c+c1}{// A more common and safer approach in production code would be to either}
+\PYG{+w}{    }\PYG{c+c1}{// declare an array with a fixed maximum size, or use dynamic allocation (`malloc`).}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{num\PYGZus{}vertices}\PYG{p}{];}
+
+\PYG{+w}{    }\PYG{n}{readPolygon}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printPolygon}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: readPolygon}
+\PYG{c+cm}{    Purpose: Reads the coordinates for all vertices of a polygon.}
+\PYG{c+cm}{    It loops and calls readPoint for each vertex.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPolygon}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Enter the \PYGZpc{}d vertices for the polygon:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Vertex \PYGZsh{}\PYGZpc{}d:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{c+c1}{// We pass the address of the current struct in the array, `\PYGZam{}polygon[i]`,}
+\PYG{+w}{        }\PYG{c+c1}{// to the readPoint function.}
+\PYG{+w}{        }\PYG{n}{readPoint}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printPolygon}
+\PYG{c+cm}{    Purpose: Prints the coordinates of all vertices of a polygon.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPolygon}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{The vertices of your polygon are:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// We pass the struct itself, `polygon[i]`, by value to printPoint.}
+\PYG{+w}{        }\PYG{n}{printPoint}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: readPoint}
+\PYG{c+cm}{    Purpose: Reads a single point\PYGZsq{}s coordinates from the user.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}  x\PYGZhy{}coordinate: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{x}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}  y\PYGZhy{}coordinate: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printPoint}
+\PYG{c+cm}{    Purpose: Prints a single point in (x, y) format.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}  (\PYGZpc{}d, \PYGZpc{}d)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

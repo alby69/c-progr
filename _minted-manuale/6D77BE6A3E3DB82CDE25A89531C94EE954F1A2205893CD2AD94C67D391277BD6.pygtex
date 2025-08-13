@@ -1,0 +1,78 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Control Flow \PYGZhy{} Logical Operators and a Bug Fix}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program simulates a simple dice game where a tax is calculated based}
+\PYG{c+cm}{    on the sum of two dice. It\PYGZsq{}s a good example of nested \PYGZsq{}if\PYGZsq{} statements.}
+
+\PYG{c+cm}{    This file also contains a subtle bug that provides a great learning opportunity}
+\PYG{c+cm}{    about logical operators!}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Nested \PYGZsq{}if\PYGZsq{} statements.}
+\PYG{c+cm}{    \PYGZhy{} Boolean logic stored in an integer (a common C idiom).}
+\PYG{c+cm}{    \PYGZhy{} The logical AND (\PYGZam{}\PYGZam{}) vs. logical OR (||) operators.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{dice1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{dice2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the values for two dice: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{dice1}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{dice2}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// A common C idiom: Storing a boolean result in an int.}
+\PYG{+w}{    }\PYG{c+c1}{// The expression `sum \PYGZgt{}= 10` evaluates to either 1 (true) or 0 (false).}
+\PYG{+w}{    }\PYG{c+c1}{// This result is then stored in the integer variable \PYGZsq{}is\PYGZus{}special\PYGZus{}total\PYGZsq{}.}
+\PYG{+w}{    }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{dice1}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dice2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{is\PYGZus{}special\PYGZus{}total}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} A BUG TO FIX \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{c+c1}{// The original code had a bug here: `(dice1 \PYGZgt{}= 1 || dice1 \PYGZlt{}= 6)`.}
+\PYG{+w}{    }\PYG{c+c1}{// The logical OR (||) operator is true if *either* condition is true. Since}
+\PYG{+w}{    }\PYG{c+c1}{// any number is either \PYGZdq{}greater than or equal to 1\PYGZdq{} OR \PYGZdq{}less than or equal to 6\PYGZdq{},}
+\PYG{+w}{    }\PYG{c+c1}{// this condition was always true, even for invalid dice rolls like 99.}
+\PYG{+w}{    }\PYG{c+c1}{//}
+\PYG{+w}{    }\PYG{c+c1}{// The FIX is to use the logical AND (\PYGZam{}\PYGZam{}) operator, which is only true if}
+\PYG{+w}{    }\PYG{c+c1}{// *both* conditions are true. This correctly validates the dice roll.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{((}\PYG{n}{dice1}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{dice1}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{dice2}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{dice2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// This is a valid dice roll, so we can proceed.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The roll is valid.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Nested \PYGZsq{}if\PYGZsq{} statement:}
+\PYG{+w}{        }\PYG{c+c1}{// This \PYGZsq{}if\PYGZsq{} is checked only if the outer \PYGZsq{}if\PYGZsq{} was true.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{is\PYGZus{}special\PYGZus{}total}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// This is the same as writing `if (is\PYGZus{}special\PYGZus{}total == 1)`}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}This is a special total!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Special tax: 36}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}This is a regular total.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Regular tax: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sum}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// This \PYGZsq{}else\PYGZsq{} belongs to the outer \PYGZsq{}if\PYGZsq{}. It catches invalid dice rolls.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: Invalid dice values entered. Please enter numbers between 1 and 6.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Change the `\PYGZam{}\PYGZam{}` back to `||` in the validation \PYGZsq{}if\PYGZsq{} statement and try}
+\PYG{c+cm}{        entering invalid dice numbers like `7` or `\PYGZhy{}2`. See how the program}
+\PYG{c+cm}{        incorrectly processes them. This is a great way to understand the bug.}
+\PYG{c+cm}{    2.  The variable \PYGZsq{}is\PYGZus{}special\PYGZus{}total\PYGZsq{} is convenient but not strictly necessary.}
+\PYG{c+cm}{        Can you rewrite the program to not use it, putting the `sum \PYGZgt{}= 10`}
+\PYG{c+cm}{        check directly into the nested \PYGZsq{}if\PYGZsq{} statement?}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

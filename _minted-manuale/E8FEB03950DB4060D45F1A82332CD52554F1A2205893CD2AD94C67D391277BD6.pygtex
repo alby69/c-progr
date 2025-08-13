@@ -1,0 +1,120 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Arrays \PYGZhy{} Passing Arrays to Functions}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This is a very important topic. When you pass an array to a function in C,}
+\PYG{c+cm}{    you are not passing a copy of the entire array. Instead, you are passing a}
+\PYG{c+cm}{    *pointer* to the first element of the array.}
+
+\PYG{c+cm}{    This has a huge implication: any modifications the function makes to the}
+\PYG{c+cm}{    array elements will affect the original array in the calling function!}
+\PYG{c+cm}{    This is different from passing a simple variable (like an int), where the}
+\PYG{c+cm}{    function only gets a copy.}
+
+\PYG{c+cm}{    This file merges concepts from three different examples to provide a}
+\PYG{c+cm}{    comprehensive overview.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} How arrays are passed to functions as pointers.}
+\PYG{c+cm}{    \PYGZhy{} How functions can modify the original array\PYGZsq{}s data.}
+\PYG{c+cm}{    \PYGZhy{} The equivalence of pointer notation (`*(ptr + i)`) and array notation (`ptr[i]`).}
+\PYG{c+cm}{    \PYGZhy{} The need to pass the array\PYGZsq{}s size as a separate argument.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function Prototypes}
+\PYG{c+c1}{// When a function expects an array, you can declare the parameter as a pointer}
+\PYG{c+c1}{// (e.g., `int *ptr`) or with empty array brackets (e.g., `int arr[]`). Both are}
+\PYG{c+c1}{// treated identically by the compiler: they are both pointers.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{squareArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{resetArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Showing the pointer syntax is the same}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// We can initialize an array with values when we declare it.}
+\PYG{+w}{    }\PYG{c+c1}{// The compiler will automatically determine the size.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{array}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}4}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Original array: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// This function will modify the original array.}
+\PYG{+w}{    }\PYG{n}{squareArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}After squaring: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// This function also modifies the original array.}
+\PYG{+w}{    }\PYG{n}{resetArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}After resetting:  \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: squareArray}
+\PYG{c+cm}{    Purpose: Squares each element of an integer array.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{squareArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// This modification directly changes the \PYGZsq{}array\PYGZsq{} in main().}
+\PYG{+w}{        }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: resetArray}
+\PYG{c+cm}{    Purpose: Resets the first 3 elements of an array to 0.}
+\PYG{c+cm}{    This demonstrates using pointer notation to achieve the same result.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{resetArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// In C, `ptr[i]` is just \PYGZdq{}syntactic sugar\PYGZdq{} for `*(ptr + i)`.}
+\PYG{+w}{    }\PYG{c+c1}{// The following lines show the equivalence. Most programmers use the}
+\PYG{+w}{    }\PYG{c+c1}{// array notation `ptr[i]` because it\PYGZsq{}s easier to read.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{o}{*}\PYG{p}{(}\PYG{n}{ptr}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Same as ptr[0] = 0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{o}{*}\PYG{p}{(}\PYG{n}{ptr}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Same as ptr[1] = 0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{ptr}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{     }\PYG{c+c1}{// Same as *(ptr + 2) = 0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printArray}
+\PYG{c+cm}{    Purpose: Prints all elements of an integer array.}
+\PYG{c+cm}{    Note: A function that receives an array has no way of knowing its size on}
+\PYG{c+cm}{    its own. This is why we MUST pass the size as a separate argument.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  One of the original examples had a function that found the maximum value}
+\PYG{c+cm}{        in an array and another function that used that result to modify the array.}
+\PYG{c+cm}{        Can you write a function `int findMax(int arr[], int size)` that returns}
+\PYG{c+cm}{        the largest value, and then call it from `main`?}
+\PYG{c+cm}{    2.  What happens if you declare a function parameter with `const`, like}
+\PYG{c+cm}{        `void printArray(const int arr[], int size)`? This is a promise to the}
+\PYG{c+cm}{        compiler that the function will *not* modify the array. If you then try}
+\PYG{c+cm}{        to write `arr[i] = 0;` inside that function, the compiler will give you}
+\PYG{c+cm}{        an error. This is a very good practice for functions that should only}
+\PYG{c+cm}{        read from an array, not write to it.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

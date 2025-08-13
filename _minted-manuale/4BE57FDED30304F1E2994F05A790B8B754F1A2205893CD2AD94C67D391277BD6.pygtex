@@ -1,0 +1,83 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Algorithms \PYGZhy{} Linear Search}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates a fundamental searching algorithm called a}
+\PYG{c+cm}{    **Linear Search**.}
+
+\PYG{c+cm}{    A linear search is the most straightforward search strategy. It sequentially}
+\PYG{c+cm}{    checks each element of a list until a match is found or the whole list has}
+\PYG{c+cm}{    been searched.}
+
+\PYG{c+cm}{    Characteristics of Linear Search:}
+\PYG{c+cm}{    \PYGZhy{} Simplicity: It\PYGZsq{}s very easy to understand and implement.}
+\PYG{c+cm}{    \PYGZhy{} Data Requirement: It works on any list of data, sorted or unsorted.}
+\PYG{c+cm}{    \PYGZhy{} Performance: It can be slow for large lists. In the worst case, if the}
+\PYG{c+cm}{      item is the last element or not in the list at all, you have to check}
+\PYG{c+cm}{      every single element. This is described as O(n) or \PYGZdq{}linear\PYGZdq{} time complexity.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The linear search algorithm.}
+\PYG{c+cm}{    \PYGZhy{} Using a \PYGZsq{}while\PYGZsq{} loop that terminates on one of two conditions.}
+\PYG{c+cm}{    \PYGZhy{} Using a \PYGZdq{}flag\PYGZdq{} variable to track search success.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{18}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}10}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// 0 for false, 1 for true}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Here is the list of numbers: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Which number are you looking for? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The core of the linear search.}
+\PYG{+w}{    }\PYG{c+c1}{// The `while` loop continues as long as we haven\PYGZsq{}t found the item AND}
+\PYG{+w}{    }\PYG{c+c1}{// we haven\PYGZsq{}t run out of elements to check (i \PYGZlt{} n).}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Checking index \PYGZpc{}d (value \PYGZpc{}d)...}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// We found a match!}
+\PYG{+w}{            }\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// No match, so we move to the next element.}
+\PYG{+w}{            }\PYG{n}{i}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// After the loop, we check the flag to see if the search was successful.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// Or just `if (!found\PYGZus{}flag)`}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d is not a member of this list.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}I found \PYGZpc{}d at index \PYGZpc{}d in the list.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  A `for` loop can also be used for a linear search. Can you rewrite this}
+\PYG{c+cm}{        program to use a `for` loop instead of a `while` loop? You would still}
+\PYG{c+cm}{        need a `found\PYGZus{}flag` and a `break` statement to exit the loop early once}
+\PYG{c+cm}{        the item is found.}
+\PYG{c+cm}{    2.  What if the list contains duplicates? This implementation will always}
+\PYG{c+cm}{        find the *first* occurrence. How would you modify it to find the *last*}
+\PYG{c+cm}{        occurrence? (Hint: you couldn\PYGZsq{}t exit the loop early).}
+\PYG{c+cm}{    3.  The next example will show a \PYGZdq{}bisection\PYGZdq{} or \PYGZdq{}binary\PYGZdq{} search, which is}
+\PYG{c+cm}{        much faster but requires the data to be sorted first.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

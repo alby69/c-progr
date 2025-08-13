@@ -1,0 +1,82 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Arrays \PYGZhy{} A Practical Example with Doubles}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates a practical use of arrays. It performs two \PYGZdq{}passes\PYGZdq{}}
+\PYG{c+cm}{    over the data. First, it reads a set of weights into an array of doubles and}
+\PYG{c+cm}{    calculates their sum. Second, after calculating the average, it iterates over}
+\PYG{c+cm}{    the array again to show how much each individual weight needs to be adjusted}
+\PYG{c+cm}{    to match the average.}
+
+\PYG{c+cm}{    This two\PYGZhy{}pass approach is very common in data processing and highlights why}
+\PYG{c+cm}{    we need arrays: we need to store all the values first before we can calculate}
+\PYG{c+cm}{    the average and compare each value against it.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Declaring an array of `double`s.}
+\PYG{c+cm}{    \PYGZhy{} Using a variable to define the number of elements to use in an array.}
+\PYG{c+cm}{    \PYGZhy{} Performing multiple passes over array data.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// We declare an array with a maximum capacity of 50.}
+\PYG{+w}{    }\PYG{c+c1}{// This means the program can handle *up to* 50 cars, but not more.}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{car\PYGZus{}weights}\PYG{p}{[}\PYG{l+m+mi}{50}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}cars}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{total\PYGZus{}weight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{average\PYGZus{}weight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many cars are there (up to 50)? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}cars}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// It\PYGZsq{}s good practice to check if the user\PYGZsq{}s input is within our array\PYGZsq{}s capacity.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{num\PYGZus{}cars}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{num\PYGZus{}cars}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: Invalid number of cars. Please enter a number between 1 and 50.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Exit the program with an error code.}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// First Pass: Read weights and calculate the sum.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the weight for each of the \PYGZpc{}d cars:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}cars}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}cars}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Car \PYGZsh{}\PYGZpc{}d weight: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}lf\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{car\PYGZus{}weights}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{n}{total\PYGZus{}weight}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{car\PYGZus{}weights}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// Calculate the average.}
+\PYG{+w}{    }\PYG{n}{average\PYGZus{}weight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{total\PYGZus{}weight}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{num\PYGZus{}cars}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{The average weight of the cars is: \PYGZpc{}.2lf}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{average\PYGZus{}weight}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Second Pass: Calculate and print the difference from the average for each car.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Weight adjustment needed for each car to reach the average:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}cars}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{difference}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{average\PYGZus{}weight}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{car\PYGZus{}weights}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{        }\PYG{c+c1}{// The \PYGZsq{}\PYGZpc{}.1lf\PYGZsq{} format specifier prints the double with 1 decimal place.}
+\PYG{+w}{        }\PYG{c+c1}{// A positive number means the car is lighter than average and needs weight added.}
+\PYG{+w}{        }\PYG{c+c1}{// A negative number means the car is heavier and needs weight removed.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Car \PYGZsh{}\PYGZpc{}d: \PYGZpc{}.1lf}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{difference}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Can you find the car with the heaviest weight and the car with the}
+\PYG{c+cm}{        lightest weight? You would do this by iterating through the array after}
+\PYG{c+cm}{        it\PYGZsq{}s populated, keeping track of the `max\PYGZus{}weight\PYGZus{}so\PYGZus{}far` and}
+\PYG{c+cm}{        `min\PYGZus{}weight\PYGZus{}so\PYGZus{}far`.}
+\PYG{c+cm}{    2.  What if you wanted to store the name (a string) of each car along with its}
+\PYG{c+cm}{        weight? This would require a more advanced data structure, like two}
+\PYG{c+cm}{        separate arrays (one for weights, one for names) or an array of `structs`,}
+\PYG{c+cm}{        which we will cover later in the tutorial.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

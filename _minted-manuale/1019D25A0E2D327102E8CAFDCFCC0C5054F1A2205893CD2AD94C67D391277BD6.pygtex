@@ -1,0 +1,65 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: C Basics \PYGZhy{} Integer Division and the Modulo Operator}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This exercise demonstrates how integer arithmetic works in C, specifically}
+\PYG{c+cm}{    division and finding the remainder.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Integer division: how C handles division between two integers.}
+\PYG{c+cm}{    \PYGZhy{} The Modulo Operator (\PYGZpc{}): how to get the remainder of a division.}
+\PYG{c+cm}{    \PYGZhy{} Variable initialization.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Variable Declaration and Initialization:}
+\PYG{+w}{    }\PYG{c+c1}{// We declare two integer variables to store the total number of matches}
+\PYG{+w}{    }\PYG{c+c1}{// and the capacity (size) of each box.}
+\PYG{+w}{    }\PYG{c+c1}{// It\PYGZsq{}s good practice to initialize variables to 0 to avoid using them}
+\PYG{+w}{    }\PYG{c+c1}{// with garbage values from memory.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{total\PYGZus{}matches}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{box\PYGZus{}size}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the total number of matches: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{total\PYGZus{}matches}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the number of matches each box can hold: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{box\PYGZus{}size}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Integer Division:}
+\PYG{+w}{    }\PYG{c+c1}{// When you divide two integers in C, the result is also an integer.}
+\PYG{+w}{    }\PYG{c+c1}{// Any fractional part is truncated (simply cut off, not rounded).}
+\PYG{+w}{    }\PYG{c+c1}{// For example, 10 / 3 results in 3.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{full\PYGZus{}boxes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{total\PYGZus{}matches}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{box\PYGZus{}size}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Number of full boxes: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{full\PYGZus{}boxes}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The Modulo Operator (\PYGZpc{}):}
+\PYG{+w}{    }\PYG{c+c1}{// This operator gives you the remainder of an integer division.}
+\PYG{+w}{    }\PYG{c+c1}{// For example, 10 \PYGZpc{} 3 results in 1, because 10 divided by 3 is 3 with}
+\PYG{+w}{    }\PYG{c+c1}{// a remainder of 1.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{remaining\PYGZus{}matches}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{total\PYGZus{}matches}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{box\PYGZus{}size}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Number of remaining matches: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{remaining\PYGZus{}matches}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What happens if the user enters 0 for the box size? Your program will}
+\PYG{c+cm}{        likely crash due to a \PYGZdq{}division by zero\PYGZdq{} error. This is a very common}
+\PYG{c+cm}{        bug to watch out for!}
+\PYG{c+cm}{    2.  Can you add an \PYGZsq{}if\PYGZsq{} statement to check if \PYGZsq{}box\PYGZus{}size\PYGZsq{} is 0 before you}
+\PYG{c+cm}{        perform the division? If it is, print an error message to the user.}
+\PYG{c+cm}{    3.  Think about a real\PYGZhy{}world scenario where the modulo operator would be}
+\PYG{c+cm}{        useful. For example, determining if a number is even or odd. (Hint:}
+\PYG{c+cm}{        An even number has a remainder of 0 when divided by 2).}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

@@ -1,0 +1,93 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Recursion \PYGZhy{} Factorial Example}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program calculates the factorial of a number, and it serves as a classic}
+\PYG{c+cm}{    introduction to **Recursion**.}
+
+\PYG{c+cm}{    A recursive function is a function that calls itself. To prevent it from}
+\PYG{c+cm}{    calling itself forever, it must have two parts:}
+\PYG{c+cm}{    1.  A **Base Case**: A simple condition that stops the recursion. For factorial,}
+\PYG{c+cm}{        the base case is `0! = 1`.}
+\PYG{c+cm}{    2.  A **Recursive Step**: The part of the function that calls itself, but with}
+\PYG{c+cm}{        a \PYGZdq{}smaller\PYGZdq{} or \PYGZdq{}simpler\PYGZdq{} input that moves it closer to the base case.}
+\PYG{c+cm}{        For factorial, this is `n * factorial(n\PYGZhy{}1)`.}
+
+\PYG{c+cm}{    This file shows both the recursive and the more common iterative (loop\PYGZhy{}based)}
+\PYG{c+cm}{    solutions to demonstrate the differences.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The definition of recursion.}
+\PYG{c+cm}{    \PYGZhy{} Base cases and recursive steps.}
+\PYG{c+cm}{    \PYGZhy{} Comparing a recursive solution to an iterative one.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function prototypes}
+\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n+nf}{factorial\PYGZus{}iterative}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n+nf}{factorial\PYGZus{}recursive}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Please enter a non\PYGZhy{}negative integer: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{n}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d is negative! Aborting...}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// We use `\PYGZpc{}lld` to print a `long long` integer, which is needed because}
+\PYG{+w}{        }\PYG{c+c1}{// factorials grow extremely quickly.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Iterative solution: \PYGZpc{}d! = \PYGZpc{}lld}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{factorial\PYGZus{}iterative}\PYG{p}{(}\PYG{n}{n}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Recursive solution: \PYGZpc{}d! = \PYGZpc{}lld}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{factorial\PYGZus{}recursive}\PYG{p}{(}\PYG{n}{n}\PYG{p}{));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: factorial\PYGZus{}iterative}
+\PYG{c+cm}{    Purpose: Calculates n! using a standard \PYGZsq{}for\PYGZsq{} loop.}
+\PYG{c+cm}{    This approach is generally more efficient in C for this problem.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n+nf}{factorial\PYGZus{}iterative}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// We loop from 1 up to n, multiplying the result by each number.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: factorial\PYGZus{}recursive}
+\PYG{c+cm}{    Purpose: Calculates n! using recursion.}
+\PYG{c+cm}{    This approach is often more elegant and closer to the mathematical definition.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{n+nf}{factorial\PYGZus{}recursive}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// 1. Base Case: The condition that stops the recursion.}
+\PYG{+w}{    }\PYG{c+c1}{// If n is 0, we know the answer is 1, so we just return it.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// 2. Recursive Step: The function calls itself with a smaller input.}
+\PYG{+w}{    }\PYG{c+c1}{// We calculate `n * factorial(n\PYGZhy{}1)`. The call to `factorial(n\PYGZhy{}1)` will}
+\PYG{+w}{    }\PYG{c+c1}{// continue until it hits the base case of `factorial(0)`.}
+\PYG{+w}{    }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{factorial\PYGZus{}recursive}\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    How does `factorial\PYGZus{}recursive(4)` work?}
+\PYG{c+cm}{    \PYGZhy{} It returns 4 * factorial\PYGZus{}recursive(3)}
+\PYG{c+cm}{      \PYGZhy{} which returns 3 * factorial\PYGZus{}recursive(2)}
+\PYG{c+cm}{        \PYGZhy{} which returns 2 * factorial\PYGZus{}recursive(1)}
+\PYG{c+cm}{          \PYGZhy{} which returns 1 * factorial\PYGZus{}recursive(0)}
+\PYG{c+cm}{            \PYGZhy{} which returns 1 (Base Case!)}
+\PYG{c+cm}{    The results are then multiplied back up the chain: 1*1 \PYGZhy{}\PYGZgt{} 2*1 \PYGZhy{}\PYGZgt{} 3*2 \PYGZhy{}\PYGZgt{} 4*6 = 24.}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

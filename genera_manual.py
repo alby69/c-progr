@@ -1,94 +1,145 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os
+import subprocess
+from datetime import datetime
 
-# Configurazione
-repo_path = "."  # percorso radice repo
-output_file = "manuale.tex"
-chapter_order = sorted(
-    [d for d in os.listdir(repo_path) if os.path.isdir(d) and d[0].isdigit()]
-)  # cartelle che iniziano con cifra
+# ======= CONFIGURAZIONE =======
+REPO_PATH = "/home/aabate/Documenti/PROGR/c-progr"  # <-- CAMBIA con il path locale
+OUTPUT_TEX = "manuale.tex"
+OUTPUT_PDF = "manuale.pdf"
+TITOLO = "Manuale di Programmazione in C"
+AUTORE = "Alberto Abate"
+DATA = datetime.today().strftime("%d %B %Y")
 
-# Intestazione LaTeX
-latex_header = r"""\documentclass[a4paper,11pt,oneside]{book}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[italian]{babel}
-\usepackage{geometry}
-\geometry{margin=2.5cm}
-\usepackage{fontspec}
-\setmainfont{Fira Sans}
-\setmonofont{Fira Code}
-\usepackage{xcolor}
-\definecolor{codebg}{RGB}{248,248,248}
-\usepackage{minted}
-\setminted{
-    frame=single,
-    framesep=3mm,
-    fontsize=\small,
-    bgcolor=codebg,
-    breaklines=false,
-    linenos=true,
-    numbersep=5pt
+# Margini
+MARGINI = {
+    "top": "1.5cm",
+    "bottom": "1.5cm",
+    "left": "2cm",
+    "right": "1.5cm"
 }
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=cyan
-}
-\usepackage{tocloft}
-\usepackage{graphicx}
-\usepackage{pdfpages}
-\usepackage{float}
-\usepackage{fvextra}
-\DefineVerbatimEnvironment{Verbatim}{Verbatim}{breaklines=false}
 
-\begin{document}
-\begin{titlepage}
-    \centering
-    \vspace*{4cm}
-    {\Huge\bfseries Manuale di Programmazione in C\par}
-    \vspace{1cm}
-    {\Large Basato sul repository \texttt{c-progr}\par}
-    \vfill
-    {\large Autore: Tuo Nome\par}
-    {\large \today\par}
-\end{titlepage}
+# Ordine dei capitoli (solo cartelle effettive)
+ORDINE_CAPITOLI = [
+    "C_Basics",
+    "Control_Flow",
+    "Functions",
+    "Arrays",
+    "Pointers",
+    "Strings",
+    "Algorithms",
+    "Recursion",
+    "Memory_Management",
+    "Structures"
+]
 
-\frontmatter
-\tableofcontents
-\listoflistings
-\mainmatter
-"""
+# Cartelle da escludere
+ESCLUSI = {".git", "minted-manuale"}
+# ==============================
 
-# Footer LaTeX
-latex_footer = r"""
-\backmatter
-\chapter*{Licenza}
-Il contenuto di questo manuale è distribuito secondo la licenza del repository originale.
-\end{document}
-"""
+def escape_latex(text):
+    """Escapa caratteri speciali per LaTeX."""
+    replacements = {
+        '&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#',
+        '_': r'\_', '{': r'\{', '}': r'\}',
+        '~': r'\textasciitilde{}', '^': r'\textasciicircum{}',
+        '\\': r'\textbackslash{}',
+    }
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    return text
 
-# Generazione contenuto
-content = [latex_header]
+# ======= CREAZIONE DOCUMENTO LATEX =======
+latex = []
 
-for chapter in chapter_order:
-    chapter_name = chapter.split("_", 1)[-1].replace("_", " ")
-    content.append(f"\\chapter{{{chapter_name}}}\n")
-    files = sorted(
-        [f for f in os.listdir(chapter) if f.endswith((".c", ".h"))]
-    )
-    for file in files:
-        filepath = os.path.join(chapter, file)
-        # Escapa backslash e underscore per LaTeX
-        latex_path = filepath.replace("\\", "/").replace("_", "\\_")
-        content.append(f"\\inputminted{{c}}{{{latex_path}}}\n")
+latex.append(r"\documentclass[11pt]{book}")
+latex.append(r"\usepackage{fontspec}")
+latex.append(r"\usepackage{xcolor}")
+latex.append(r"\usepackage{geometry}")
+latex.append(r"\usepackage{hyperref}")
+latex.append(r"\usepackage{minted}")
 
-content.append(latex_footer)
+# Margini
+latex.append(r"\geometry{top=%s, bottom=%s, left=%s, right=%s}" %
+             (MARGINI["top"], MARGINI["bottom"], MARGINI["left"], MARGINI["right"]))
 
-# Salvataggio
-with open(output_file, "w", encoding="utf-8") as f:
-    f.write("\n".join(content))
+# Hyperref
+latex.append(r"\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}")
 
-print(f"File LaTeX generato: {output_file}")
-print("Compila con: xelatex -shell-escape manuale.tex")
+# Fancy header
+latex.append(r"\usepackage{fancyhdr}")
+latex.append(r"\pagestyle{fancy}")
+latex.append(r"\fancyhf{}")
+latex.append(r"\fancyhead[C]{\small\leftmark}")
+latex.append(r"\renewcommand{\chaptermark}[1]{\markboth{#1}{}}")
+latex.append(r"\renewcommand{\headrulewidth}{0.4pt}")
+latex.append(r"\fancyfoot[C]{\thepage}")
+
+# Titolo
+latex.append(r"\title{%s}" % escape_latex(TITOLO))
+latex.append(r"\author{%s}" % escape_latex(AUTORE))
+latex.append(r"\date{%s}" % escape_latex(DATA))
+
+latex.append(r"\begin{document}")
+latex.append(r"\maketitle")
+latex.append(r"\tableofcontents")
+latex.append(r"\newpage")
+
+# ======= CAPITOLI =======
+for capitolo in ORDINE_CAPITOLI:
+    if capitolo in ESCLUSI:
+        print(f"[DEBUG] Capitolo '{capitolo}' escluso")
+        continue
+
+    capitolo_path = os.path.join(REPO_PATH, capitolo)
+    print(f"[DEBUG] Verifico cartella: {capitolo_path}")
+
+    if os.path.isdir(capitolo_path):
+        print(f"[DEBUG] Cartella trovata: {capitolo_path}")
+        capitolo_title = capitolo.replace("_", " ")
+        latex.append(r"\chapter{%s}" % escape_latex(capitolo_title))
+
+        c_files = sorted([f for f in os.listdir(capitolo_path) if f.endswith(".c")])
+        if not c_files:
+            print(f"[WARNING] Nessun file .c trovato in {capitolo_path}")
+        else:
+            print(f"[DEBUG] File .c trovati in {capitolo}: {c_files}")
+
+        for c_file in c_files:
+            file_path = os.path.join(capitolo_path, c_file)
+            latex.append(r"\clearpage")
+            latex.append(r"\begin{minted}[breaklines, fontsize=\small]{c}")
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    latex.append(f.read())
+            except Exception as e:
+                print(f"[ERROR] Impossibile leggere {file_path}: {e}")
+            latex.append(r"\end{minted}")
+    else:
+        print(f"[WARNING] Cartella non trovata: {capitolo_path}")
+
+latex.append(r"\end{document}")
+
+# ======= SCRITTURA FILE .TEX =======
+with open(OUTPUT_TEX, "w", encoding="utf-8") as f:
+    f.write("\n".join(latex))
+
+print(f"{OUTPUT_TEX} generato con successo!")
+
+# ======= COMPILAZIONE CON XELATEX =======
+print("Compilazione con XeLaTeX in corso...")
+subprocess.run(["xelatex", "-shell-escape", OUTPUT_TEX])
+subprocess.run(["xelatex", "-shell-escape", OUTPUT_TEX])  # due volte per TOC
+
+if os.path.exists(OUTPUT_PDF):
+    print(f"{OUTPUT_PDF} creato con successo!")
+
+# ======= PULIZIA FILE TEMPORANEI =======
+TEMP_EXTENSIONS = [".aux", ".log", ".out", ".toc", ".lof", ".lot", ".lol"]
+for ext in TEMP_EXTENSIONS:
+    temp_file = OUTPUT_TEX.replace(".tex", ext)
+    if os.path.exists(temp_file):
+        os.remove(temp_file)
+        print(f"Rimosso {temp_file}")

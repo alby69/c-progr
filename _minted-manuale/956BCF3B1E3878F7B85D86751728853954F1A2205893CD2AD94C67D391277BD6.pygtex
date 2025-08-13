@@ -1,0 +1,55 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Control Flow \PYGZhy{} The \PYGZsq{}if\PYGZsq{} Statement}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates the most fundamental control flow statement: the \PYGZsq{}if\PYGZsq{}}
+\PYG{c+cm}{    statement. It allows the program to make decisions and execute different}
+\PYG{c+cm}{    code blocks based on a condition.}
+
+\PYG{c+cm}{    This example was recreated to replace a file that was lost due to technical}
+\PYG{c+cm}{    issues. It captures the concept of checking a temperature value.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}if\PYGZsq{} statement for conditional execution.}
+\PYG{c+cm}{    \PYGZhy{} Relational operators (e.g., \PYGZgt{} for \PYGZdq{}greater than\PYGZdq{}).}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}else\PYGZsq{} statement for handling the case when the condition is false.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{temperature}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the current temperature in Celsius: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{temperature}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}if\PYGZsq{} statement checks a condition in the parentheses.}
+\PYG{+w}{    }\PYG{c+c1}{// If the condition is true, the block of code immediately following it is executed.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{temperature}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}It\PYGZsq{}s hot outside! Stay hydrated.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}else\PYGZsq{} statement is optional.}
+\PYG{+w}{    }\PYG{c+c1}{// Its code block is executed if the \PYGZsq{}if\PYGZsq{} condition is false.}
+\PYG{+w}{    }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}It\PYGZsq{}s not too hot. Enjoy the weather!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Can you add an \PYGZsq{}else if\PYGZsq{} statement to handle more conditions? For example,}
+\PYG{c+cm}{        check for temperatures below 10 degrees Celsius and print a message}
+\PYG{c+cm}{        saying \PYGZdq{}It\PYGZsq{}s cold, wear a jacket!\PYGZdq{}.}
+\PYG{c+cm}{    2.  What happens if you only have an \PYGZsq{}if\PYGZsq{} without an \PYGZsq{}else\PYGZsq{}? Try removing the}
+\PYG{c+cm}{        \PYGZsq{}else\PYGZsq{} block and see how the program behaves for different temperatures.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

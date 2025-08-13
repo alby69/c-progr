@@ -1,0 +1,91 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Arrays \PYGZhy{} Finding Maximum and Minimum Values}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    A very common task when working with data is to find the largest or smallest}
+\PYG{c+cm}{    value in a set. This program shows the standard algorithm for finding the}
+\PYG{c+cm}{    maximum and minimum values in an array.}
+
+\PYG{c+cm}{    This file merges the logic from two previous examples (`03\PYGZus{}array\PYGZus{}max\PYGZus{}min.c`}
+\PYG{c+cm}{    and `04\PYGZus{}array\PYGZus{}max\PYGZus{}age.c`).}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The algorithm for finding the maximum value in an array.}
+\PYG{c+cm}{    \PYGZhy{} The algorithm for finding the minimum value in an array.}
+\PYG{c+cm}{    \PYGZhy{} The importance of correct initialization when searching for min/max.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{];}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Please enter the ages of 10 people:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Finding the Maximum and Minimum \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// The key to finding the min or max is to have a variable that holds the}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZdq{}biggest value seen so far\PYGZdq{} or \PYGZdq{}smallest value seen so far\PYGZdq{}.}
+
+\PYG{+w}{    }\PYG{c+c1}{// A ROBUST way to initialize is to set both max and min to the *first*}
+\PYG{+w}{    }\PYG{c+c1}{// element of the array. This guarantees they hold a real value from the}
+\PYG{+w}{    }\PYG{c+c1}{// data set to start with.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{age\PYGZus{}max}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{age\PYGZus{}min}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+
+\PYG{+w}{    }\PYG{c+c1}{// The original code for finding the minimum was `int ageMin = 200;`. This is}
+\PYG{+w}{    }\PYG{c+c1}{// a \PYGZdq{}magic number\PYGZdq{} and is a bug! It would fail if all the ages entered}
+\PYG{+w}{    }\PYG{c+c1}{// were greater than 200. Initializing with the first element is safer.}
+
+\PYG{+w}{    }\PYG{c+c1}{// Now, we loop through the *rest* of the array (starting from the second element, index 1).}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Check for a new maximum}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{age\PYGZus{}max}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// We found a new biggest age, so we update our variable.}
+\PYG{+w}{            }\PYG{n}{age\PYGZus{}max}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Check for a new minimum}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{age\PYGZus{}min}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// We found a new smallest age, so we update our variable.}
+\PYG{+w}{            }\PYG{n}{age\PYGZus{}min}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{The maximum age is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{age\PYGZus{}max}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The minimum age is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{age\PYGZus{}min}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Using the Results \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Age differences with the eldest person:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d:\PYGZpc{}d \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{age\PYGZus{}max}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s}{Age differences with the youngest person:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d:\PYGZpc{}d \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{ages}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{age\PYGZus{}min}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What if you wanted to find the *index* of the oldest person, not just}
+\PYG{c+cm}{        their age? You would need another variable, `max\PYGZus{}age\PYGZus{}index`, that you}
+\PYG{c+cm}{        update inside the `if (ages[i] \PYGZgt{} age\PYGZus{}max)` block.}
+\PYG{c+cm}{    2.  This program uses a fixed\PYGZhy{}size array of 10. Can you modify it to first}
+\PYG{c+cm}{        ask the user how many ages they want to enter, and then process that}
+\PYG{c+cm}{        many? (You\PYGZsq{}ll still need to declare an array with a fixed *maximum* size).}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

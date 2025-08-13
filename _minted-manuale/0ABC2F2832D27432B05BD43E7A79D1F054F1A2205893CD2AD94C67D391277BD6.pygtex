@@ -1,0 +1,89 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Algorithms \PYGZhy{} Bubble Sort}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates a simple but inefficient sorting algorithm called}
+\PYG{c+cm}{    **Bubble Sort**.}
+
+\PYG{c+cm}{    The core idea is to repeatedly step through the list, compare adjacent}
+\PYG{c+cm}{    elements, and swap them if they are in the wrong order. This process is}
+\PYG{c+cm}{    repeated until the list is sorted. The smaller elements \PYGZdq{}bubble\PYGZdq{} to the}
+\PYG{c+cm}{    top of the list.}
+
+\PYG{c+cm}{    Characteristics of Bubble Sort:}
+\PYG{c+cm}{    \PYGZhy{} Simplicity: It is one of the simplest sorting algorithms to understand.}
+\PYG{c+cm}{    \PYGZhy{} Performance: It is very slow for anything other than small or mostly\PYGZhy{}sorted}
+\PYG{c+cm}{      lists. Its time complexity is O(n\PYGZca{}2) or \PYGZdq{}quadratic\PYGZdq{} time. This means if}
+\PYG{c+cm}{      you double the size of the list, the sorting time roughly quadruples.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The bubble sort algorithm.}
+\PYG{c+cm}{    \PYGZhy{} Using nested loops for sorting.}
+\PYG{c+cm}{    \PYGZhy{} A simple in\PYGZhy{}place swap.}
+\PYG{c+cm}{    \PYGZhy{} An optimized version of bubble sort.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{759}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{900}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{106}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{77}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}10}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}3}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{temp\PYGZus{}swap}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Unsorted list: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{list}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The outer loop (`j`) controls how many passes we make over the array.}
+\PYG{+w}{    }\PYG{c+c1}{// After the first pass, the largest element is guaranteed to be at the end.}
+\PYG{+w}{    }\PYG{c+c1}{// After the second pass, the second\PYGZhy{}largest is in place, and so on.}
+\PYG{+w}{    }\PYG{c+c1}{// We need n\PYGZhy{}1 passes in the worst case.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Optimization \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{c+c1}{// We can add a flag to check if any swaps were made during a pass.}
+\PYG{+w}{        }\PYG{c+c1}{// If a full pass completes with no swaps, the array is already sorted,}
+\PYG{+w}{        }\PYG{c+c1}{// and we can exit early.}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{swapped}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// The inner loop (`i`) does the actual comparison and swapping.}
+\PYG{+w}{        }\PYG{c+c1}{// It \PYGZdq{}bubbles\PYGZdq{} the largest unsorted element towards the end of the array.}
+\PYG{+w}{        }\PYG{c+c1}{// The `n \PYGZhy{} 1 \PYGZhy{} j` is a further optimization: we don\PYGZsq{}t need to re\PYGZhy{}check}
+\PYG{+w}{        }\PYG{c+c1}{// the elements that are already sorted at the end of the array.}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{j}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{c+c1}{// The elements are in the wrong order, so we swap them.}
+\PYG{+w}{                }\PYG{n}{temp\PYGZus{}swap}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{                }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{];}
+\PYG{+w}{                }\PYG{n}{list}\PYG{p}{[}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{temp\PYGZus{}swap}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{swapped}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Set the flag because we made a swap.}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}After pass \PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{list}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// If the \PYGZsq{}swapped\PYGZsq{} flag is still 0, it means the list is sorted.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{swapped}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Array is sorted! Exiting early.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{break}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Exit the outer loop.}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Final sorted list: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{list}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

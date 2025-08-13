@@ -1,0 +1,80 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Control Flow \PYGZhy{} The \PYGZsq{}while\PYGZsq{} Loop}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program calculates the total power of a fleet of robots based on their}
+\PYG{c+cm}{    attributes. It\PYGZsq{}s a great example of reading and processing multiple,}
+\PYG{c+cm}{    more complex lines of input.}
+
+\PYG{c+cm}{    The original code used a \PYGZsq{}for\PYGZsq{} loop. We have refactored it to use a \PYGZsq{}while\PYGZsq{}}
+\PYG{c+cm}{    loop to demonstrate an alternative looping structure.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}while\PYGZsq{} loop.}
+\PYG{c+cm}{    \PYGZhy{} The difference between \PYGZsq{}for\PYGZsq{} and \PYGZsq{}while\PYGZsq{} loops.}
+\PYG{c+cm}{    \PYGZhy{} Reading multiple values from a single line of input.}
+\PYG{c+cm}{    \PYGZhy{} Performing a calculation within a loop to accumulate a total.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}robots}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{height}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{weight}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{engine\PYGZus{}power}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{resistance}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{total\PYGZus{}fleet\PYGZus{}power}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// It\PYGZsq{}s common to initialize the counter *before* a while loop.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many robots are in the fleet? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}robots}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the stats for each robot (height weight power resistance):}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}while\PYGZsq{} loop:}
+\PYG{+w}{    }\PYG{c+c1}{// A \PYGZsq{}while\PYGZsq{} loop is simpler than a \PYGZsq{}for\PYGZsq{} loop. It only has one part: the}
+\PYG{+w}{    }\PYG{c+c1}{// condition. It will continue to execute its block as long as the condition}
+\PYG{+w}{    }\PYG{c+c1}{// is true. It\PYGZsq{}s up to us to manage the counter variable inside the loop.}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}robots}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Robot \PYGZsh{}\PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZpc{}d \PYGZpc{}d \PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{height}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{weight}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{engine\PYGZus{}power}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{resistance}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Calculate the power for the current robot}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{single\PYGZus{}robot\PYGZus{}power}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{engine\PYGZus{}power}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{resistance}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{weight}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{height}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Add it to the fleet\PYGZsq{}s total power}
+\PYG{+w}{        }\PYG{n}{total\PYGZus{}fleet\PYGZus{}power}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{single\PYGZus{}robot\PYGZus{}power}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// Manual Increment:}
+\PYG{+w}{        }\PYG{c+c1}{// We must remember to increment our counter variable \PYGZsq{}i\PYGZsq{} at the end}
+\PYG{+w}{        }\PYG{c+c1}{// of the loop. If we forget this, `i \PYGZlt{} num\PYGZus{}robots` will always be true,}
+\PYG{+w}{        }\PYG{c+c1}{// and we will have an infinite loop!}
+\PYG{+w}{        }\PYG{n}{i}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The total power of the robot fleet is: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{total\PYGZus{}fleet\PYGZus{}power}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    When to use \PYGZsq{}for\PYGZsq{} vs. \PYGZsq{}while\PYGZsq{}?}
+
+\PYG{c+cm}{    \PYGZhy{} \PYGZsq{}for\PYGZsq{} loop: Best when you know exactly how many times you want to loop}
+\PYG{c+cm}{      (e.g., iterating from 0 to \PYGZsq{}n\PYGZsq{}, looping through an array). The initialization,}
+\PYG{c+cm}{      condition, and increment are all neatly packaged in one line. This is the}
+\PYG{c+cm}{      most common type of loop.}
+
+\PYG{c+cm}{    \PYGZhy{} \PYGZsq{}while\PYGZsq{} loop: Best when you want to loop as long as a certain condition}
+\PYG{c+cm}{      is true, but you don\PYGZsq{}t necessarily know how many iterations it will take.}
+\PYG{c+cm}{      (e.g., \PYGZdq{}keep looping until the user enters \PYGZhy{}1\PYGZdq{}, or \PYGZdq{}keep looping while}
+\PYG{c+cm}{      the file has more data\PYGZdq{}).}
+
+\PYG{c+cm}{    In this specific example, a \PYGZsq{}for\PYGZsq{} loop is arguably a better fit because we}
+\PYG{c+cm}{    know the exact number of iterations from the start (`num\PYGZus{}robots`). However,}
+\PYG{c+cm}{    it\PYGZsq{}s important to understand how to accomplish the same task with a \PYGZsq{}while\PYGZsq{} loop.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

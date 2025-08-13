@@ -1,0 +1,107 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Arrays \PYGZhy{} Reversing an Array}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates a classic and efficient algorithm for reversing}
+\PYG{c+cm}{    an array \PYGZdq{}in\PYGZhy{}place\PYGZdq{} (meaning, without creating a second, temporary array).}
+
+\PYG{c+cm}{    The core idea is to swap the first element with the last, the second element}
+\PYG{c+cm}{    with the second\PYGZhy{}to\PYGZhy{}last, and so on, stopping at the middle of the array.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} In\PYGZhy{}place modification of an array.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZdq{}two\PYGZhy{}pointer\PYGZdq{} or \PYGZdq{}symmetric swap\PYGZdq{} algorithm for reversal.}
+\PYG{c+cm}{    \PYGZhy{} Using a temporary variable for swapping values.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function Prototypes}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{reverseArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{SIZE}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Using a constant for the size is good practice.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{array}\PYG{p}{[}\PYG{n}{SIZE}\PYG{p}{];}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Please enter \PYGZpc{}d integers:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SIZE}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{readArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SIZE}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Original array: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SIZE}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{reverseArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SIZE}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Reversed array: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArray}\PYG{p}{(}\PYG{n}{array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SIZE}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: reverseArray}
+\PYG{c+cm}{    Purpose: Reverses the elements of an array in\PYGZhy{}place.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{reverseArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{temp}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// A temporary variable is essential for swapping.}
+
+\PYG{+w}{    }\PYG{c+c1}{// The loop only needs to go to the middle of the array.}
+\PYG{+w}{    }\PYG{c+c1}{// If size is 6, we loop from i=0 to 2.}
+\PYG{+w}{    }\PYG{c+c1}{// i=0 swaps with 5.}
+\PYG{+w}{    }\PYG{c+c1}{// i=1 swaps with 4.}
+\PYG{+w}{    }\PYG{c+c1}{// i=2 swaps with 3.}
+\PYG{+w}{    }\PYG{c+c1}{// If we went all the way to size\PYGZhy{}1, we would just swap them back!}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{size}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// The index of the element symmetric to `i` is `size \PYGZhy{} 1 \PYGZhy{} i`.}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{symmetric\PYGZus{}index}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{size}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// The three steps for a classic swap:}
+\PYG{+w}{        }\PYG{c+c1}{// 1. Store the value of the first element in a temporary variable.}
+\PYG{+w}{        }\PYG{n}{temp}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{        }\PYG{c+c1}{// 2. Overwrite the first element with the value of the second.}
+\PYG{+w}{        }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{symmetric\PYGZus{}index}\PYG{p}{];}
+\PYG{+w}{        }\PYG{c+c1}{// 3. Overwrite the second element with the value from the temp variable.}
+\PYG{+w}{        }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{symmetric\PYGZus{}index}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{temp}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printArray}
+\PYG{c+cm}{    Purpose: Prints all elements of an integer array.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: readArray}
+\PYG{c+cm}{    Purpose: Reads integers from the user to populate an array.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readArray}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{arr}\PYG{p}{[],}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What happens if the array has an odd number of elements (e.g., size 7)?}
+\PYG{c+cm}{        Trace the loop with `size / 2`. Integer division means `7 / 2` is 3. The}
+\PYG{c+cm}{        loop will run for i=0, 1, 2. The middle element (at index 3) is never}
+\PYG{c+cm}{        touched, which is correct! It doesn\PYGZsq{}t need to be swapped with anything.}
+\PYG{c+cm}{    2.  Can you write a function `void swap(int *a, int *b)` that takes pointers}
+\PYG{c+cm}{        to two integers and swaps their values? Then, you could call this}
+\PYG{c+cm}{        `swap(\PYGZam{}arr[i], \PYGZam{}arr[symmetric\PYGZus{}index])` inside your `reverseArray`}
+\PYG{c+cm}{        function to make the code even cleaner. This is an excellent pointer exercise.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

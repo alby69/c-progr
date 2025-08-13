@@ -1,0 +1,97 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Dynamic Allocation of Structs}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program is a capstone example that brings together many of the topics}
+\PYG{c+cm}{    we\PYGZsq{}ve covered: structs, pointers, arrays, and dynamic memory allocation.}
+
+\PYG{c+cm}{    It creates a dynamically\PYGZhy{}sized array of `point` structs. This is the proper,}
+\PYG{c+cm}{    safe, and standard way to handle cases where you don\PYGZsq{}t know the size of your}
+\PYG{c+cm}{    array until runtime, and it\PYGZsq{}s the preferred alternative to Variable\PYGZhy{}Length}
+\PYG{c+cm}{    Arrays (VLAs).}
+
+\PYG{c+cm}{    The process is:}
+\PYG{c+cm}{    1.  Ask the user how many vertices they need.}
+\PYG{c+cm}{    2.  Use `malloc` to request enough memory for that many `point` structs.}
+\PYG{c+cm}{    3.  Treat the resulting block of memory as an array.}
+\PYG{c+cm}{    4.  `free` the memory when we are done.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Using `malloc` to create a dynamic array of structs.}
+\PYG{c+cm}{    \PYGZhy{} Using `sizeof(struct type)` to calculate the correct memory size.}
+\PYG{c+cm}{    \PYGZhy{} Accessing elements in the dynamically allocated array.}
+\PYG{c+cm}{    \PYGZhy{} The importance of `free`ing the allocated memory.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}\PYG{c+c1}{ // For malloc() and free()}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPolygon}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{polygon}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// `polygon` is not an array. It\PYGZsq{}s a pointer that will hold the}
+\PYG{+w}{    }\PYG{c+c1}{// starting address of a block of memory we get from malloc.}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{polygon}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many vertices does your polygon have? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Dynamic Allocation:}
+\PYG{+w}{    }\PYG{c+c1}{// 1. We want space for `num\PYGZus{}vertices` number of `point` structs.}
+\PYG{+w}{    }\PYG{c+c1}{// 2. `sizeof(struct point)` gives us the size of a single struct.}
+\PYG{+w}{    }\PYG{c+c1}{// 3. We multiply them to get the total number of bytes needed.}
+\PYG{+w}{    }\PYG{c+c1}{// 4. `malloc` returns a `void *`, which we cast to `struct point *`.}
+\PYG{+w}{    }\PYG{n}{polygon}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{malloc}\PYG{p}{(}\PYG{n}{num\PYGZus{}vertices}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{c+c1}{// ALWAYS check if malloc was successful.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{polygon}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nb}{NULL}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: Memory allocation failed.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// Now, we can treat `polygon` as if it were an array.}
+\PYG{+w}{    }\PYG{c+c1}{// We can use the familiar `[]` array notation to access elements.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter vertex \PYGZsh{}\PYGZpc{}d:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{readPoint}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}\PYG{+w}{ }\PYG{c+c1}{// Pass the address of the i\PYGZhy{}th struct}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printPolygon}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// THE GOLDEN RULE: If you `malloc`, you must `free`.}
+\PYG{+w}{    }\PYG{c+c1}{// This releases the entire block of memory back to the system.}
+\PYG{+w}{    }\PYG{n}{free}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{polygon}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{NULL}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Good practice to prevent using a \PYGZdq{}dangling pointer\PYGZdq{}.}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}  x\PYGZhy{}coordinate: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{x}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}  y\PYGZhy{}coordinate: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPolygon}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{polygon}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Your polygon\PYGZsq{}s vertices are:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}vertices}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printPoint}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}  (\PYGZpc{}d, \PYGZpc{}d)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

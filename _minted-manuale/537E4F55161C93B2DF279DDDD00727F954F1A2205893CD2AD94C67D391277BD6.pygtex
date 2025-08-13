@@ -1,0 +1,88 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Control Flow \PYGZhy{} Simplifying with \PYGZsq{}else if\PYGZsq{}}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program calculates a cost based on a person\PYGZsq{}s age and weight, using}
+\PYG{c+cm}{    a set of rules. The original code uses nested \PYGZsq{}if\PYGZhy{}else\PYGZsq{} statements.}
+
+\PYG{c+cm}{    We will refactor this code to use the \PYGZsq{}else if\PYGZsq{} structure, which is often}
+\PYG{c+cm}{    cleaner and easier to read when you have a chain of mutually exclusive conditions.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Nested \PYGZsq{}if\PYGZhy{}else\PYGZsq{} statements.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}else if\PYGZsq{} ladder for cleaner multi\PYGZhy{}condition logic.}
+\PYG{c+cm}{    \PYGZhy{} Logical AND (\PYGZam{}\PYGZam{}) to combine conditions.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{age}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{weight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// in pounds}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter age: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{age}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter weight in pounds: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{weight}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+cm}{/*}
+\PYG{c+cm}{        Original Logic (with nested if\PYGZhy{}else):}
+\PYG{c+cm}{        This works, but it can be hard to read as more conditions are added,}
+\PYG{c+cm}{        leading to deeper and deeper nesting (the \PYGZdq{}arrowhead\PYGZdq{} anti\PYGZhy{}pattern).}
+
+\PYG{c+cm}{        if (age == 60) \PYGZob{}}
+\PYG{c+cm}{            cost = 0;}
+\PYG{c+cm}{        \PYGZcb{} else \PYGZob{}}
+\PYG{c+cm}{            if (age \PYGZlt{} 10) \PYGZob{}}
+\PYG{c+cm}{                cost = 5;}
+\PYG{c+cm}{            \PYGZcb{} else \PYGZob{}}
+\PYG{c+cm}{                cost = 30;}
+\PYG{c+cm}{                if (weight \PYGZgt{} 20) \PYGZob{}}
+\PYG{c+cm}{                    cost = cost + 10;}
+\PYG{c+cm}{                \PYGZcb{}}
+\PYG{c+cm}{            \PYGZcb{}}
+\PYG{c+cm}{        \PYGZcb{}}
+\PYG{c+cm}{    */}
+
+\PYG{+w}{    }\PYG{c+c1}{// Refactored Logic (with \PYGZsq{}else if\PYGZsq{} ladder):}
+\PYG{+w}{    }\PYG{c+c1}{// This structure is much flatter and easier to follow. The conditions are}
+\PYG{+w}{    }\PYG{c+c1}{// checked from top to bottom. As soon as one is true, its block is executed,}
+\PYG{+w}{    }\PYG{c+c1}{// and the rest of the chain is skipped.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{age}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{60}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{age}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// This block handles everyone else (age \PYGZgt{}= 10 and not 60)}
+\PYG{+w}{        }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{p}{;}
+\PYG{+w}{        }\PYG{c+c1}{// This nested \PYGZsq{}if\PYGZsq{} is now much simpler. It only applies to the group}
+\PYG{+w}{        }\PYG{c+c1}{// that qualifies for the base \PYGZdl{}30 cost.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{weight}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The calculated cost is: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cost}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  The rules in this program are a bit ambiguous. For example, what is the}
+\PYG{c+cm}{        cost for a person who is exactly 10 years old? The current logic charges}
+\PYG{c+cm}{        them \PYGZdl{}30. Is that correct? Modify the conditions to handle the age of 10}
+\PYG{c+cm}{        explicitly if you want a different cost.}
+\PYG{c+cm}{    2.  Add a new rule: if a person is over 100 years old, the cost is also 0.}
+\PYG{c+cm}{        Where would you add this \PYGZsq{}else if\PYGZsq{} statement in the chain? Does the}
+\PYG{c+cm}{        order matter? (Hint: Yes, it can! You\PYGZsq{}d want to check for \PYGZgt{} 100 before}
+\PYG{c+cm}{        the final \PYGZsq{}else\PYGZsq{} block).}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

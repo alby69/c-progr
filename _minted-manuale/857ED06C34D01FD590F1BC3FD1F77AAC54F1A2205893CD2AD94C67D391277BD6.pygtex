@@ -1,0 +1,70 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Populating Structs with User Input}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program builds on the previous example. Instead of initializing the}
+\PYG{c+cm}{    `struct` with hard\PYGZhy{}coded values, we declare an uninitialized `struct` variable}
+\PYG{c+cm}{    and then fill its members with data provided by the user.}
+
+\PYG{c+cm}{    The key takeaway is how we use the dot operator (`.`) to access each member}
+\PYG{c+cm}{    and pass it to `scanf`.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Declaring an uninitialized `struct` variable.}
+\PYG{c+cm}{    \PYGZhy{} Using the dot operator (`.`) to access members for writing/input.}
+\PYG{c+cm}{    \PYGZhy{} The difference in `scanf` usage for arrays vs. other types.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{firstName}\PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{lastName}\PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{birthYear}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{aveGrade}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// We declare a `struct student` variable named \PYGZsq{}learner\PYGZsq{}.}
+\PYG{+w}{    }\PYG{c+c1}{// At this point, the values of its members are garbage (undefined).}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the student\PYGZsq{}s first name: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// IMPORTANT: When scanning a string into a character array like `learner.firstName`,}
+\PYG{+w}{    }\PYG{c+c1}{// you do NOT use the \PYGZsq{}\PYGZam{}\PYGZsq{} address\PYGZhy{}of operator. This is because the name of an}
+\PYG{+w}{    }\PYG{c+c1}{// array already \PYGZdq{}decays\PYGZdq{} into a pointer to its first element.}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the student\PYGZsq{}s last name: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{.}\PYG{n}{lastName}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the student\PYGZsq{}s year of birth: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// For simple numeric types like `int` and `double`, you DO need the \PYGZsq{}\PYGZam{}\PYGZsq{}}
+\PYG{+w}{    }\PYG{c+c1}{// to pass the memory address of that specific member to scanf.}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{learner}\PYG{p}{.}\PYG{n}{birthYear}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the student\PYGZsq{}s average grade: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}lf\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{learner}\PYG{p}{.}\PYG{n}{aveGrade}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Student Record \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Name: \PYGZpc{}s \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{.}\PYG{n}{lastName}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Year of birth: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{.}\PYG{n}{birthYear}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Average grade: \PYGZpc{}.2lf}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{learner}\PYG{p}{.}\PYG{n}{aveGrade}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  After populating the `learner` struct, declare a new struct variable,}
+\PYG{c+cm}{        `struct student partner;`, and then try to copy the data using a single}
+\PYG{c+cm}{        assignment: `partner = learner;`. Print the details of `partner` to}
+\PYG{c+cm}{        confirm that all the members were copied successfully.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

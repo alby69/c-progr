@@ -1,0 +1,97 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Pointers \PYGZhy{} Pointers to Pointers (Double Pointers)}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This is an advanced topic, so let\PYGZsq{}s take it slow.}
+\PYG{c+cm}{    \PYGZhy{} A normal pointer (like `int *`) stores the address of a variable.}
+\PYG{c+cm}{    \PYGZhy{} A pointer\PYGZhy{}to\PYGZhy{}a\PYGZhy{}pointer (like `int **`) stores the address of *another pointer*.}
+
+\PYG{c+cm}{    Why would you need this?}
+\PYG{c+cm}{    1.  To create an array of pointers (as shown in this example). This is very}
+\PYG{c+cm}{        common for storing an array of strings.}
+\PYG{c+cm}{    2.  For a function that needs to change where a pointer points (i.e., change}
+\PYG{c+cm}{        the address stored in the pointer variable itself).}
+
+\PYG{c+cm}{    This example creates an \PYGZdq{}array of pointers\PYGZdq{}, where each element of the array}
+\PYG{c+cm}{    is a pointer to another array.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Declaring a pointer\PYGZhy{}to\PYGZhy{}a\PYGZhy{}pointer (`type **`).}
+\PYG{c+cm}{    \PYGZhy{} Creating an array of pointers.}
+\PYG{c+cm}{    \PYGZhy{} The logic of double dereferencing.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// This function takes a pointer\PYGZhy{}to\PYGZhy{}a\PYGZhy{}pointer\PYGZhy{}to\PYGZhy{}a\PYGZhy{}short.}
+\PYG{c+c1}{// `t` is an address of a pointer.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{setToZero}\PYG{p}{(}\PYG{k+kt}{short}\PYG{+w}{ }\PYG{o}{**}\PYG{n}{t}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArrays}\PYG{p}{(}\PYG{k+kt}{short}\PYG{+w}{ }\PYG{o}{**}\PYG{n}{t}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{short}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1245}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1924}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{234}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{short}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{24}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{256}\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// `t` is an array of pointers. Each element in `t` is a `short *`.}
+\PYG{+w}{    }\PYG{c+c1}{// t[0] is a pointer that holds the address of the first element of `a`.}
+\PYG{+w}{    }\PYG{c+c1}{// t[1] is a pointer that holds the address of the first element of `b`.}
+\PYG{+w}{    }\PYG{k+kt}{short}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{t}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Before \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArrays}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// When we pass `t` to a function, the array name `t` decays into a pointer}
+\PYG{+w}{    }\PYG{c+c1}{// to its first element. The first element of `t` is a `short *`.}
+\PYG{+w}{    }\PYG{c+c1}{// Therefore, a pointer to that element is a `short **`.}
+\PYG{+w}{    }\PYG{n}{setToZero}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZhy{}\PYGZhy{}\PYGZhy{} After \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printArrays}\PYG{p}{(}\PYG{n}{t}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: setToZero}
+\PYG{c+cm}{    Purpose: Sets the elements of the arrays pointed to by the pointer array to zero.}
+\PYG{c+cm}{    Parameters:}
+\PYG{c+cm}{        \PYGZhy{} t: A pointer to the first element of the array of pointers from main.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{setToZero}\PYG{p}{(}\PYG{k+kt}{short}\PYG{+w}{ }\PYG{o}{**}\PYG{n}{t}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Let\PYGZsq{}s break down the complex syntax: `*(*t) = 0;`}
+\PYG{+w}{    }\PYG{c+c1}{//}
+\PYG{+w}{    }\PYG{c+c1}{// 1. `t`: A pointer to a `short *`. Its value is the address of `t[0]` from main.}
+\PYG{+w}{    }\PYG{c+c1}{// 2. `*t`: We dereference `t` once. This gives us the value *at* `t[0]`, which}
+\PYG{+w}{    }\PYG{c+c1}{//          is the pointer to array `a`. So, `*t` is the same as `a`.}
+\PYG{+w}{    }\PYG{c+c1}{// 3. `*(*t)`: We dereference the result again. Since `*t` is `a`, `*(*t)` is the}
+\PYG{+w}{    }\PYG{c+c1}{//            same as `*a`, which refers to the first element of `a`.}
+\PYG{+w}{    }\PYG{c+c1}{// So, `*(*t) = 0;` is equivalent to `a[0] = 0;`.}
+
+\PYG{+w}{    }\PYG{o}{*}\PYG{p}{(}\PYG{o}{*}\PYG{n}{t}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Sets a[0] to 0.}
+
+\PYG{+w}{    }\PYG{c+c1}{// Let\PYGZsq{}s look at `*((*t) + 1) = 0;`}
+\PYG{+w}{    }\PYG{c+c1}{// 1. `*t` is `a`.}
+\PYG{+w}{    }\PYG{c+c1}{// 2. `(*t) + 1` is pointer arithmetic, same as `a + 1`, which points to a[1].}
+\PYG{+w}{    }\PYG{c+c1}{// 3. `*((*t) + 1)` dereferences that, so it\PYGZsq{}s the same as `a[1]`.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{p}{((}\PYG{o}{*}\PYG{n}{t}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Sets a[1] to 0.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{p}{((}\PYG{o}{*}\PYG{n}{t}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Sets a[2] to 0.}
+
+\PYG{+w}{    }\PYG{c+c1}{// Now let\PYGZsq{}s look at `*(*(t + 1)) = 0;`}
+\PYG{+w}{    }\PYG{c+c1}{// 1. `t + 1`: Pointer arithmetic. Moves from pointing at `t[0]` to pointing at `t[1]`.}
+\PYG{+w}{    }\PYG{c+c1}{// 2. `*(t + 1)`: Dereferences that. This gives us the value *at* `t[1]`, which is the pointer `b`.}
+\PYG{+w}{    }\PYG{c+c1}{// 3. `*(*(t + 1))`: Dereferences `b`, giving us `b[0]`.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{t}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{     }\PYG{c+c1}{// Sets b[0] to 0.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{n}{t}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Sets b[1] to 0.}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// A helper function to see the results.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printArrays}\PYG{p}{(}\PYG{k+kt}{short}\PYG{+w}{ }\PYG{o}{**}\PYG{n}{t}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// This is just for demonstration; in a real program, we would also need}
+\PYG{+w}{    }\PYG{c+c1}{// to pass the size of each individual array to do this safely in a loop.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Content of array \PYGZsq{}a\PYGZsq{}: \PYGZpc{}d, \PYGZpc{}d, \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{2}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Content of array \PYGZsq{}b\PYGZsq{}: \PYGZpc{}d, \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]);}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

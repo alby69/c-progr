@@ -1,0 +1,90 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Structs and Functions (Pass\PYGZhy{}by\PYGZhy{}Value vs. Pass\PYGZhy{}by\PYGZhy{}Pointer)}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates the two primary ways to work with `struct`s and}
+\PYG{c+cm}{    functions. It highlights when to pass the whole `struct` and when to pass a}
+\PYG{c+cm}{    pointer to it.}
+
+\PYG{c+cm}{    1.  **Pass\PYGZhy{}by\PYGZhy{}Value (`printPoint`)**:}
+\PYG{c+cm}{        \PYGZhy{} A *copy* of the entire `struct` is made and given to the function.}
+\PYG{c+cm}{        \PYGZhy{} The function can read the data, but any changes it makes are to the}
+\PYG{c+cm}{          copy and will NOT affect the original `struct` in `main`.}
+\PYG{c+cm}{        \PYGZhy{} This is simple and safe for read\PYGZhy{}only operations, but can be inefficient}
+\PYG{c+cm}{          if the `struct` is very large, as copying takes time and memory.}
+\PYG{c+cm}{        \PYGZhy{} We use the **dot operator (`.`)** to access members.}
+
+\PYG{c+cm}{    2.  **Pass\PYGZhy{}by\PYGZhy{}Pointer (`readPoint`)**:}
+\PYG{c+cm}{        \PYGZhy{} Only the *memory address* of the `struct` is passed to the function.}
+\PYG{c+cm}{        \PYGZhy{} This is very efficient as no data is copied.}
+\PYG{c+cm}{        \PYGZhy{} The function can now modify the original `struct`\PYGZsq{}s data directly. This}
+\PYG{c+cm}{          is essential for functions that need to write or change data, like `readPoint`.}
+\PYG{c+cm}{        \PYGZhy{} We use the **arrow operator (`\PYGZhy{}\PYGZgt{}`)** as a convenient shortcut to}
+\PYG{c+cm}{          dereference the pointer and access a member.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Passing a `struct` to a function by value.}
+\PYG{c+cm}{    \PYGZhy{} Passing a pointer to a `struct` to a function.}
+\PYG{c+cm}{    \PYGZhy{} The dot operator (`.`) for direct access.}
+\PYG{c+cm}{    \PYGZhy{} The arrow operator (`\PYGZhy{}\PYGZgt{}`) for access via a pointer.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{c+c1}{// Function prototypes}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{z}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// We pass the ADDRESS of `z` to readPoint so it can be filled with data.}
+\PYG{+w}{    }\PYG{n}{readPoint}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{z}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Back in main, the point is: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// We pass `z` itself (a copy) to printPoint, since it only needs to read the data.}
+\PYG{+w}{    }\PYG{n}{printPoint}\PYG{p}{(}\PYG{n}{z}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: readPoint}
+\PYG{c+cm}{    Purpose: Reads x and y coordinates from the user into a `point` struct.}
+\PYG{c+cm}{    Method: Pass\PYGZhy{}by\PYGZhy{}Pointer.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Enter a new point: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}x\PYGZhy{}coordinate: \PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The Arrow Operator (`\PYGZhy{}\PYGZgt{}`):}
+\PYG{+w}{    }\PYG{c+c1}{// This is a shortcut. The expression `ptr\PYGZhy{}\PYGZgt{}x` is exactly equivalent to}
+\PYG{+w}{    }\PYG{c+c1}{// `(*ptr).x`, which means:}
+\PYG{+w}{    }\PYG{c+c1}{// 1. Dereference the pointer `ptr` to get the whole `struct`.}
+\PYG{+w}{    }\PYG{c+c1}{// 2. Use the dot operator on that `struct` to access the `x` member.}
+\PYG{+w}{    }\PYG{c+c1}{// The arrow operator is much cleaner and easier to read.}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{x}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}y\PYGZhy{}coordinate: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printPoint}
+\PYG{c+cm}{    Purpose: Prints the coordinates of a `point` struct.}
+\PYG{c+cm}{    Method: Pass\PYGZhy{}by\PYGZhy{}Value.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printPoint}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{point}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Here, `pt` is a copy of the `z` variable from main.}
+\PYG{+w}{    }\PYG{c+c1}{// Since we have the struct directly, we use the dot operator.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}(\PYGZpc{}d, \PYGZpc{}d)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pt}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

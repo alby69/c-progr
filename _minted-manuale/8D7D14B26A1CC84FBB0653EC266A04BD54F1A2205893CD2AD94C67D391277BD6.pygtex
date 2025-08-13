@@ -1,0 +1,105 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Pointers \PYGZhy{} Dereferencing (\PYGZdq{}Going to the Address\PYGZdq{})}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    If a pointer holds a memory address, how do we see what\PYGZsq{}s *at* that address?}
+\PYG{c+cm}{    This action is called \PYGZdq{}dereferencing\PYGZdq{}, and it\PYGZsq{}s done with the same asterisk (*)}
+\PYG{c+cm}{    we use to declare a pointer.}
+
+\PYG{c+cm}{    When used on an existing pointer variable, `*my\PYGZus{}pointer` means}
+\PYG{c+cm}{    \PYGZdq{}go to the address stored in `my\PYGZus{}pointer` and get the value there\PYGZdq{}.}
+
+\PYG{c+cm}{    This is the key to reading and *writing* data through pointers.}
+
+\PYG{c+cm}{    This file merges concepts from four different examples.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The dereference operator (*) to read a value.}
+\PYG{c+cm}{    \PYGZhy{} Using a dereferenced pointer to modify a value.}
+\PYG{c+cm}{    \PYGZhy{} A practical example: passing a pointer to a function to modify a variable.}
+\PYG{c+cm}{    \PYGZhy{} The relationship between pointers and arrays.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function prototype that takes a pointer as an argument.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{timesTwo}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{num\PYGZus{}ptr}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Part 1: Basic Dereferencing \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{42}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{i\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{i}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// i\PYGZus{}ptr now holds the address of i.}
+
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{3.14}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{a\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// To read the value *at* the address, we dereference the pointer.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The variable \PYGZsq{}i\PYGZsq{} lives at address \PYGZpc{}p.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i\PYGZus{}ptr}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The value stored at that address is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{i\PYGZus{}ptr}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Dereference!}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The variable \PYGZsq{}a\PYGZsq{} lives at address \PYGZpc{}p.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a\PYGZus{}ptr}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The value stored at that address is \PYGZpc{}lf.}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{a\PYGZus{}ptr}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Part 2: Modifying Values via Dereferencing \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The original value of \PYGZsq{}i\PYGZsq{} is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Now, we will modify \PYGZsq{}i\PYGZsq{} using the pointer...}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// We are not changing the pointer `i\PYGZus{}ptr`, but the value at the address it points to.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{n}{i\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// If we now check the original variable \PYGZsq{}i\PYGZsq{}, we see it has changed!}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The new value of \PYGZsq{}i\PYGZsq{} is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{);}
+
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Part 3: Practical Use \PYGZhy{} Modifying a Value in a Function \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The value of \PYGZsq{}n\PYGZsq{} before the function call is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// We pass the ADDRESS of \PYGZsq{}n\PYGZsq{} to the function.}
+\PYG{+w}{    }\PYG{n}{timesTwo}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{n}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Because the function had the address, it could change \PYGZsq{}n\PYGZsq{} directly.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The value of \PYGZsq{}n\PYGZsq{} after the function call is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Part 4: The Relationship Between Pointers and Arrays \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{my\PYGZus{}array}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{100}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{200}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{300}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{array\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{my\PYGZus{}array}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Notice: no \PYGZsq{}\PYGZam{}\PYGZsq{} needed for an array!}
+
+\PYG{+w}{    }\PYG{c+c1}{// The name of an array, when used by itself, decays into a pointer}
+\PYG{+w}{    }\PYG{c+c1}{// to its first element. So, `my\PYGZus{}array` is equivalent to `\PYGZam{}my\PYGZus{}array[0]`.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The first element is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{array\PYGZus{}ptr}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Prints 100}
+
+\PYG{+w}{    }\PYG{c+c1}{// We can use pointer arithmetic to access other elements.}
+\PYG{+w}{    }\PYG{c+c1}{// `*(array\PYGZus{}ptr + 1)` means \PYGZdq{}go to the address of the first element, move}
+\PYG{+w}{    }\PYG{c+c1}{// forward by the size of one int, and get the value there\PYGZdq{}.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The second element is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{p}{(}\PYG{n}{array\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{c+c1}{// Prints 200}
+
+\PYG{+w}{    }\PYG{c+c1}{// This is why array access `my\PYGZus{}array[1]` is equivalent to `*(my\PYGZus{}array + 1)`.}
+\PYG{+w}{    }\PYG{c+c1}{// The array bracket notation is just more convenient \PYGZdq{}syntactic sugar\PYGZdq{}.}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: timesTwo}
+\PYG{c+cm}{    Purpose: Takes a pointer to an integer, and doubles the value stored at}
+\PYG{c+cm}{             that integer\PYGZsq{}s address.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{timesTwo}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{num\PYGZus{}ptr}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{} \PYGZhy{}\PYGZgt{} Inside function: The received value is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{num\PYGZus{}ptr}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// Here, we dereference the pointer to get the value, multiply it by 2,}
+\PYG{+w}{    }\PYG{c+c1}{// and then use the pointer again to store the new value back in the}
+\PYG{+w}{    }\PYG{c+c1}{// original memory location.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{n}{num\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{num\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{} \PYGZhy{}\PYGZgt{} Inside function: The value has been doubled to \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{num\PYGZus{}ptr}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

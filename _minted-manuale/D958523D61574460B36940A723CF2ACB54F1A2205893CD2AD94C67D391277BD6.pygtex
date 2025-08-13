@@ -1,0 +1,68 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Defining Your Own Data Types}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    Welcome to Structures, or `struct`s. This is a powerful feature that allows}
+\PYG{c+cm}{    you to create your own custom data types by grouping other variables together.}
+
+\PYG{c+cm}{    Think of a `struct` as a \PYGZdq{}blueprint\PYGZdq{} for a new type of variable. If you want}
+\PYG{c+cm}{    to represent a student, you need to store their name, age, grade, etc. A}
+\PYG{c+cm}{    `struct` lets you bundle all of this related information into a single,}
+\PYG{c+cm}{    neat package.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The `struct` keyword for defining a new structure type.}
+\PYG{c+cm}{    \PYGZhy{} Declaring a variable of your new `struct` type.}
+\PYG{c+cm}{    \PYGZhy{} Initializing a `struct` variable with data.}
+\PYG{c+cm}{    \PYGZhy{} Accessing the members of a `struct` using the dot operator (`.`).}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Here, we define a new structure named \PYGZsq{}student\PYGZsq{}.}
+\PYG{c+c1}{// This acts as a template. It doesn\PYGZsq{}t allocate any memory yet, it just}
+\PYG{c+c1}{// defines what a \PYGZsq{}student\PYGZsq{} variable will look like.}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// These are the \PYGZdq{}members\PYGZdq{} or \PYGZdq{}fields\PYGZdq{} of the structure.}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{firstName}\PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{lastName}\PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{birthYear}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{aveGrade}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Now we declare a variable of our new type, `struct student`.}
+\PYG{+w}{    }\PYG{c+c1}{// This creates a variable named `me` in memory that has space for all the}
+\PYG{+w}{    }\PYG{c+c1}{// members we defined in the blueprint.}
+\PYG{+w}{    }\PYG{c+c1}{// We can initialize it directly using curly braces, with the values in order.}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{n}{me}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}Petra\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Bonfert\PYGZhy{}Taylor\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1989}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{3.5}\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// Let\PYGZsq{}s create another student variable.}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{n}{you}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}Remi\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Sharrock\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2005}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{3.5}\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// To access the data inside a struct variable, we use the dot operator (`.`).}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Names: \PYGZpc{}s \PYGZpc{}s, \PYGZpc{}s \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{me}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{me}\PYG{p}{.}\PYG{n}{lastName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{you}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{you}\PYG{p}{.}\PYG{n}{lastName}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// You can access any member of the struct.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Year of birth for \PYGZpc{}s: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{me}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{me}\PYG{p}{.}\PYG{n}{birthYear}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Average grade for \PYGZpc{}s: \PYGZpc{}.2lf}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{you}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{you}\PYG{p}{.}\PYG{n}{aveGrade}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Define a new struct to represent a `car`. It could have members like}
+\PYG{c+cm}{        `char make[20]`, `char model[20]`, `int year`, and `double price`.}
+\PYG{c+cm}{    2.  Create a couple of `car` variables, initialize them, and print out}
+\PYG{c+cm}{        their details.}
+\PYG{c+cm}{    3.  You can also assign one struct variable to another, like `struct student new\PYGZus{}student = me;`.}
+\PYG{c+cm}{        This copies the values of all members. Try it out!}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

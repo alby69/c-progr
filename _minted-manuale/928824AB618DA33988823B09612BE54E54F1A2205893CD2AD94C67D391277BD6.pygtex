@@ -1,0 +1,82 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Recursion \PYGZhy{} Fibonacci Numbers}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program calculates the Nth number in the Fibonacci sequence, another}
+\PYG{c+cm}{    classic example of recursion.}
+
+\PYG{c+cm}{    The Fibonacci sequence is defined as:}
+\PYG{c+cm}{    F(1) = 0}
+\PYG{c+cm}{    F(2) = 1}
+\PYG{c+cm}{    F(n) = F(n\PYGZhy{}1) + F(n\PYGZhy{}2) for n \PYGZgt{} 2}
+
+\PYG{c+cm}{    This definition translates very directly into a recursive function.}
+
+\PYG{c+cm}{    **A VERY IMPORTANT NOTE ON EFFICIENCY:**}
+\PYG{c+cm}{    While this is a great example for learning recursion, this specific}
+\PYG{c+cm}{    implementation is extremely inefficient! It recalculates the same values}
+\PYG{c+cm}{    many, many times. For example, to calculate `fibonacci(5)`, it calculates}
+\PYG{c+cm}{    `fibonacci(3)` twice, `fibonacci(2)` three times, etc. For larger numbers}
+\PYG{c+cm}{    (try anything over 40), this becomes incredibly slow. A loop\PYGZhy{}based (iterative)}
+\PYG{c+cm}{    solution is much more efficient for this particular problem.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Recursion with multiple base cases.}
+\PYG{c+cm}{    \PYGZhy{} Recursion with multiple recursive calls in a single return statement.}
+\PYG{c+cm}{    \PYGZhy{} An example of an inefficient recursive algorithm.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{fibonacci}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{N}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{fib}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Which Fibonacci number would you like (e.g., 1st, 2nd, 3rd...)? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{N}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{N}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d is not a positive number. Aborting!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{N}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{fib}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fibonacci}\PYG{p}{(}\PYG{n}{N}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The \PYGZpc{}dth Fibonacci number is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{N}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{fib}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: fibonacci}
+\PYG{c+cm}{    Purpose: Calculates the Nth Fibonacci number using recursion.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{fibonacci}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Base Case 1: The first Fibonacci number is 0.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// Base Case 2: The second Fibonacci number is 1.}
+\PYG{+w}{    }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// Recursive Step: The Nth number is the sum of the previous two.}
+\PYG{+w}{    }\PYG{c+c1}{// The function makes two recursive calls to itself.}
+\PYG{+w}{    }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{fibonacci}\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{fibonacci}\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    How does `fibonacci(5)` work?}
+\PYG{c+cm}{    \PYGZhy{} It returns fibonacci(4) + fibonacci(3)}
+\PYG{c+cm}{      \PYGZhy{} fibonacci(4) returns fibonacci(3) + fibonacci(2)}
+\PYG{c+cm}{        \PYGZhy{} fibonacci(3) returns fibonacci(2) + fibonacci(1) \PYGZhy{}\PYGZgt{} returns 1 + 0 = 1}
+\PYG{c+cm}{        \PYGZhy{} fibonacci(2) returns 1 (Base Case)}
+\PYG{c+cm}{        \PYGZhy{} So, fibonacci(4) returns 1 + 1 = 2}
+\PYG{c+cm}{      \PYGZhy{} fibonacci(3) returns fibonacci(2) + fibonacci(1) \PYGZhy{}\PYGZgt{} returns 1 + 0 = 1}
+\PYG{c+cm}{    \PYGZhy{} Finally, fibonacci(5) returns 2 + 1 = 3.}
+\PYG{c+cm}{    Notice that `fibonacci(3)` was calculated twice! This is the source of the inefficiency.}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

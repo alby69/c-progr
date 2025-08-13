@@ -1,0 +1,92 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Control Flow \PYGZhy{} Decisions Based on String Length}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program reads a word from the user and then prints either 1 or 2}
+\PYG{c+cm}{    based on whether the length of the word is even or odd.}
+
+\PYG{c+cm}{    The original code calculates the string length manually with a \PYGZsq{}while\PYGZsq{} loop.}
+\PYG{c+cm}{    We will show that method and then introduce the standard C library function}
+\PYG{c+cm}{    `strlen()` from `\PYGZlt{}string.h\PYGZgt{}`, which is the correct and more efficient way}
+\PYG{c+cm}{    to do this.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Character arrays (strings) in C.}
+\PYG{c+cm}{    \PYGZhy{} The null terminator (\PYGZsq{}\PYGZbs{}0\PYGZsq{}) at the end of a string.}
+\PYG{c+cm}{    \PYGZhy{} Manually calculating string length with a loop.}
+\PYG{c+cm}{    \PYGZhy{} Using the standard `strlen()` function from the `\PYGZlt{}string.h\PYGZgt{}` library.}
+\PYG{c+cm}{    \PYGZhy{} The ternary operator as a shortcut for \PYGZsq{}if\PYGZhy{}else\PYGZsq{}.}
+\PYG{c+cm}{*/}
+
+\PYG{c+c1}{// We include \PYGZlt{}string.h\PYGZgt{} to get access to standard string functions like strlen().}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}string.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Declare a character array to hold the user\PYGZsq{}s input.}
+\PYG{+w}{    }\PYG{c+c1}{// We make it size 51 to hold a 50\PYGZhy{}character word plus the null terminator.}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{word}\PYG{p}{[}\PYG{l+m+mi}{51}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{length}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{output\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter a single word (up to 50 characters): \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// When using scanf with \PYGZpc{}s, it reads a sequence of non\PYGZhy{}whitespace characters.}
+\PYG{+w}{    }\PYG{c+c1}{// It automatically adds the null terminator \PYGZsq{}\PYGZbs{}0\PYGZsq{} at the end.}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{word}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+cm}{/*}
+\PYG{c+cm}{        Method 1: Manual Calculation (as in the original code)}
+\PYG{c+cm}{        This is a great way to understand how strings work in C. The loop}
+\PYG{c+cm}{        continues until it finds the special null terminator character (\PYGZsq{}\PYGZbs{}0\PYGZsq{})}
+\PYG{c+cm}{        that marks the end of every string.}
+
+\PYG{c+cm}{        int i = 0;}
+\PYG{c+cm}{        while (word[i] != \PYGZsq{}\PYGZbs{}0\PYGZsq{}) \PYGZob{}}
+\PYG{c+cm}{            i++;}
+\PYG{c+cm}{        \PYGZcb{}}
+\PYG{c+cm}{        length = i;}
+\PYG{c+cm}{    */}
+
+\PYG{+w}{    }\PYG{c+c1}{// Method 2: The Standard Library Function `strlen()` (Preferred)}
+\PYG{+w}{    }\PYG{c+c1}{// This function does the same loop for us, but it\PYGZsq{}s optimized and less}
+\PYG{+w}{    }\PYG{c+c1}{// error\PYGZhy{}prone. It returns the number of characters in the string, not}
+\PYG{+w}{    }\PYG{c+c1}{// including the null terminator.}
+\PYG{+w}{    }\PYG{n}{length}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{strlen}\PYG{p}{(}\PYG{n}{word}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The length of the word }\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s}{\PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s}{ is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{word}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Now, we make a decision based on the length.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{length}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// The length is even.}
+\PYG{+w}{        }\PYG{n}{output\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// The length is odd.}
+\PYG{+w}{        }\PYG{n}{output\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The output value is: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{output\PYGZus{}value}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Bonus: The Ternary Operator}
+\PYG{+w}{    }\PYG{c+c1}{// For a simple if\PYGZhy{}else that assigns a value to a single variable, C provides}
+\PYG{+w}{    }\PYG{c+c1}{// a shortcut called the ternary operator `(condition ? value\PYGZus{}if\PYGZus{}true : value\PYGZus{}if\PYGZus{}false)`.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{ternary\PYGZus{}output}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{length}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Result using the ternary operator: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ternary\PYGZus{}output}\PYG{p}{);}
+
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What happens if the user enters a sentence with spaces, like \PYGZdq{}hello world\PYGZdq{}?}
+\PYG{c+cm}{        `scanf(\PYGZdq{}\PYGZpc{}s\PYGZdq{}, ...)` stops reading at the first space. To read a whole line}
+\PYG{c+cm}{        of text, you would need a different function, like `fgets()`.}
+\PYG{c+cm}{    2.  Try to write a program that prints \PYGZdq{}VOWEL\PYGZdq{} if a user\PYGZhy{}entered word starts}
+\PYG{c+cm}{        with a vowel (a, e, i, o, u) and \PYGZdq{}CONSONANT\PYGZdq{} otherwise. You would need to}
+\PYG{c+cm}{        check the first character of the string, which is `word[0]`.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

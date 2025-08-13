@@ -1,0 +1,83 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Control Flow \PYGZhy{} Nested Loops}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program simulates a game with multiple players (or \PYGZdq{}throws\PYGZdq{}) where each}
+\PYG{c+cm}{    player rolls multiple dice. It\PYGZsq{}s a perfect example of a \PYGZdq{}nested loop\PYGZdq{},}
+\PYG{c+cm}{    which is one loop inside another.}
+
+\PYG{c+cm}{    The filename `06\PYGZus{}random\PYGZus{}numbers.c` is a bit of a misnomer, as this program}
+\PYG{c+cm}{    doesn\PYGZsq{}t generate *random* numbers. Instead, it reads a series of dice values}
+\PYG{c+cm}{    that you provide as input. Later in the tutorial, we\PYGZsq{}ll see how to generate}
+\PYG{c+cm}{    truly random numbers.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Nested \PYGZsq{}for\PYGZsq{} loops.}
+\PYG{c+cm}{    \PYGZhy{} Resetting an accumulator variable for an inner loop.}
+\PYG{c+cm}{    \PYGZhy{} Simulating a 2D problem (throws and dice) with loops.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}throws}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// The number of players or turns in the game (the \PYGZdq{}outer\PYGZdq{} loop).}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}dice}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{   }\PYG{c+c1}{// The number of dice each player rolls (the \PYGZdq{}inner\PYGZdq{} loop).}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{dice\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// The value of a single die, read from input.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{  }\PYG{c+c1}{// The sum of dice values for the current player\PYGZsq{}s turn.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the number of throws and the number of dice per throw: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}throws}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}dice}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Outer Loop: Iterates once for each player/throw.}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZsq{}throw\PYGZus{}idx\PYGZsq{} is the index for the current throw, from 0 to num\PYGZus{}throws\PYGZhy{}1.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}throws}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}idx}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Inner Loop: Iterates once for each die within a single throw.}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZsq{}dice\PYGZus{}idx\PYGZsq{} is the index for the current die, from 0 to num\PYGZus{}dice\PYGZhy{}1.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Enter the \PYGZpc{}d dice values for throw \PYGZsh{}\PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}dice}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{dice\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{dice\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}dice}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{dice\PYGZus{}idx}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{dice\PYGZus{}value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{throw\PYGZus{}sum}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{dice\PYGZus{}value}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Add the die\PYGZsq{}s value to the sum for this throw.}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// This printf is inside the outer loop but *after* the inner loop has finished.}
+\PYG{+w}{        }\PYG{c+c1}{// This means it runs once per throw, after all dice for that throw are summed up.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Throw \PYGZpc{}d sum equals \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{throw\PYGZus{}sum}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Resetting the accumulator:}
+\PYG{+w}{        }\PYG{c+c1}{// It\PYGZsq{}s crucial to reset the sum to 0 after each throw. If we didn\PYGZsq{}t,}
+\PYG{+w}{        }\PYG{c+c1}{// the sum for the second throw would start with the total from the first,}
+\PYG{+w}{        }\PYG{c+c1}{// which is not what we want.}
+\PYG{+w}{        }\PYG{n}{throw\PYGZus{}sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What would happen if you moved the `throw\PYGZus{}sum = 0;` line to the very}
+\PYG{c+cm}{        beginning of the program, before the outer loop? The program would}
+\PYG{c+cm}{        calculate a grand total of all dice rolls instead of a per\PYGZhy{}throw sum.}
+\PYG{c+cm}{    2.  Can you modify this program to find the highest single die roll within}
+\PYG{c+cm}{        each throw? You\PYGZsq{}d need another variable, `highest\PYGZus{}roll\PYGZus{}this\PYGZus{}throw`, and}
+\PYG{c+cm}{        an \PYGZsq{}if\PYGZsq{} statement inside the inner loop. Remember to reset it in the}
+\PYG{c+cm}{        outer loop!}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    Example Input to Copy/Paste:}
+\PYG{c+cm}{    (First line is for the first scanf, the rest are for the loops)}
+
+\PYG{c+cm}{    5 4}
+\PYG{c+cm}{    1 4 2 3}
+\PYG{c+cm}{    3 2 6 4}
+\PYG{c+cm}{    2 4 1 4}
+\PYG{c+cm}{    2 2 1 4}
+\PYG{c+cm}{    3 6 1 2}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

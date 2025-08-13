@@ -1,0 +1,94 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Memory Management \PYGZhy{} Dynamic Memory Allocation}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program introduces one of C\PYGZsq{}s most powerful and advanced features:}
+\PYG{c+cm}{    **dynamic memory allocation**.}
+
+\PYG{c+cm}{    So far, the size of all our arrays had to be a fixed constant known when we}
+\PYG{c+cm}{    compile the program. Dynamic allocation allows us to request a block of}
+\PYG{c+cm}{    memory of a specific size *while the program is running*.}
+
+\PYG{c+cm}{    This is essential when you don\PYGZsq{}t know how much memory you\PYGZsq{}ll need until}
+\PYG{c+cm}{    runtime (e.g., the user tells you how many items they want to enter).}
+
+\PYG{c+cm}{    The two key functions are from `\PYGZlt{}stdlib.h\PYGZgt{}`:}
+\PYG{c+cm}{    \PYGZhy{} `malloc(size)`: \PYGZdq{}Memory Allocate\PYGZdq{}. It requests a block of `size` bytes}
+\PYG{c+cm}{      from the operating system (from a memory pool called the \PYGZdq{}heap\PYGZdq{}). It}
+\PYG{c+cm}{      returns a `void *` pointer to the start of that block, or `NULL` if the}
+\PYG{c+cm}{      allocation fails.}
+\PYG{c+cm}{    \PYGZhy{} `free(pointer)`: Releases the block of memory pointed to by `pointer`}
+\PYG{c+cm}{      back to the system, so it can be used again.}
+
+\PYG{c+cm}{    **THE GOLDEN RULE:** For every call to `malloc()`, there must be exactly}
+\PYG{c+cm}{    one call to `free()`. Forgetting to `free` memory causes a \PYGZdq{}memory leak\PYGZdq{}.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The need for dynamic allocation.}
+\PYG{c+cm}{    \PYGZhy{} The `malloc()` and `free()` functions.}
+\PYG{c+cm}{    \PYGZhy{} Casting the `void *` returned by `malloc()`.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZdq{}off\PYGZhy{}by\PYGZhy{}one\PYGZdq{} error with null terminators (a very common bug!).}
+\PYG{c+cm}{    \PYGZhy{} Checking for `malloc` failure.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}\PYG{c+c1}{ // Required for malloc() and free()}
+
+\PYG{k+kt}{char}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nf}{allocateString}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}chars}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{lengthLight}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{lengthDark}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{strLight}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{strDark}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the desired length for the light and dark side strings: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{lengthLight}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{lengthDark}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Allocate memory for the strings based on user input.}
+\PYG{+w}{    }\PYG{n}{strLight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{allocateString}\PYG{p}{(}\PYG{n}{lengthLight}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{strDark}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{allocateString}\PYG{p}{(}\PYG{n}{lengthDark}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// It\PYGZsq{}s crucial to check if malloc succeeded. If the system is out of}
+\PYG{+w}{    }\PYG{c+c1}{// memory, it will return NULL.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{strLight}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nb}{NULL}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{strDark}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n+nb}{NULL}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: Memory allocation failed.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Exit with an error code.}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the light side setting (max \PYGZpc{}d chars): \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{lengthLight}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{strLight}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the dark side setting (max \PYGZpc{}d chars): \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{lengthDark}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{strDark}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Local settings: \PYGZpc{}s \PYGZhy{} \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{strLight}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{strDark}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// **CRUCIAL STEP:** Free the memory when you are done with it.}
+\PYG{+w}{    }\PYG{c+c1}{// If you don\PYGZsq{}t, your program will have a memory leak.}
+\PYG{+w}{    }\PYG{n}{free}\PYG{p}{(}\PYG{n}{strLight}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{free}\PYG{p}{(}\PYG{n}{strDark}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: allocateString}
+\PYG{c+cm}{    Purpose: Dynamically allocates enough memory to hold a string of a given}
+\PYG{c+cm}{             number of characters.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{char}\PYG{+w}{ }\PYG{o}{*}\PYG{n+nf}{allocateString}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}chars}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} A VERY COMMON BUG AND ITS FIX \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{c+c1}{// The original code was `malloc(numChars * sizeof(char))`.}
+\PYG{+w}{    }\PYG{c+c1}{// The problem is that a string needs one extra byte for the null terminator (\PYGZsq{}\PYGZbs{}0\PYGZsq{}).}
+\PYG{+w}{    }\PYG{c+c1}{// If you ask for 5 chars, you need 6 bytes of space. `scanf` will write the}
+\PYG{+w}{    }\PYG{c+c1}{// null terminator at the 6th byte, which is outside the allocated memory.}
+\PYG{+w}{    }\PYG{c+c1}{// This is a \PYGZdq{}buffer overflow\PYGZdq{} and a major security vulnerability.}
+\PYG{+w}{    }\PYG{c+c1}{//}
+\PYG{+w}{    }\PYG{c+c1}{// The FIX is to always allocate `num\PYGZus{}chars + 1` bytes.}
+\PYG{+w}{    }\PYG{c+c1}{// `sizeof(char)` is always 1 by definition, so it\PYGZsq{}s optional, but good for clarity.}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{char}\PYG{+w}{ }\PYG{o}{*}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{malloc}\PYG{p}{((}\PYG{n}{num\PYGZus{}chars}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{k+kt}{char}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{ptr}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

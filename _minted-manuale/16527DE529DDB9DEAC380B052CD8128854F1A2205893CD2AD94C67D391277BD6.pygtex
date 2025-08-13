@@ -1,0 +1,80 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Algorithms \PYGZhy{} Finding the Minimum Value (Streaming)}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program finds the smallest integer from a list of numbers provided by}
+\PYG{c+cm}{    the user.}
+
+\PYG{c+cm}{    The original code read all numbers into an array first. However, to find the}
+\PYG{c+cm}{    minimum value, you don\PYGZsq{}t actually need to store the entire list! You can}
+\PYG{c+cm}{    process the numbers as they arrive, keeping track of the smallest one you\PYGZsq{}ve}
+\PYG{c+cm}{    seen so far. This \PYGZdq{}streaming\PYGZdq{} approach uses much less memory and is more}
+\PYG{c+cm}{    efficient if you don\PYGZsq{}t need the full list for other purposes.}
+
+\PYG{c+cm}{    We will refactor the code to use this more efficient, streaming approach.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZdq{}streaming\PYGZdq{} approach to finding a minimum value.}
+\PYG{c+cm}{    \PYGZhy{} The importance of correct initialization.}
+\PYG{c+cm}{    \PYGZhy{} Variable\PYGZhy{}Length Arrays (VLAs) and why they should often be avoided.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}limits.h\PYGZgt{}}\PYG{c+c1}{ // For INT\PYGZus{}MAX}
+
+\PYG{c+c1}{// This helper function is fine. It clearly returns the smaller of two integers.}
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{min}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}to\PYGZus{}read}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{current\PYGZus{}num}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// We need a variable to store the minimum value found so far.}
+\PYG{+w}{    }\PYG{c+c1}{// A great way to initialize it is with the largest possible integer value.}
+\PYG{+w}{    }\PYG{c+c1}{// This guarantees that the very first number the user enters will be smaller}
+\PYG{+w}{    }\PYG{c+c1}{// and will become the first \PYGZdq{}real\PYGZdq{} minimum.}
+\PYG{+w}{    }\PYG{c+c1}{// INT\PYGZus{}MAX is a constant from the \PYGZlt{}limits.h\PYGZgt{} library.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{min\PYGZus{}so\PYGZus{}far}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{INT\PYGZus{}MAX}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many integers do you want to compare? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}to\PYGZus{}read}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{num\PYGZus{}to\PYGZus{}read}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Nothing to compare.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter \PYGZpc{}d integers:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}to\PYGZus{}read}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}to\PYGZus{}read}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{current\PYGZus{}num}\PYG{p}{);}
+\PYG{+w}{        }\PYG{c+c1}{// Compare the newly entered number with our running minimum.}
+\PYG{+w}{        }\PYG{c+c1}{// Update the minimum if the new number is smaller.}
+\PYG{+w}{        }\PYG{n}{min\PYGZus{}so\PYGZus{}far}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{min\PYGZus{}so\PYGZus{}far}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{current\PYGZus{}num}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The smallest integer entered was: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{min\PYGZus{}so\PYGZus{}far}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    A Note on Variable\PYGZhy{}Length Arrays (VLAs):}
+\PYG{c+cm}{    The original code used `int array[len];` where `len` was a variable read from}
+\PYG{c+cm}{    the user. This is called a Variable\PYGZhy{}Length Array. While some C compilers}
+\PYG{c+cm}{    support this, it is NOT part of the modern C standard (C11/C18) and can be}
+\PYG{c+cm}{    risky. If a user enters a very large number for `len`, it can cause a \PYGZdq{}stack}
+\PYG{c+cm}{    overflow\PYGZdq{} and crash your program. For this problem, storing the array was}
+\PYG{c+cm}{    unnecessary, so the streaming approach is much better and safer.}
+\PYG{c+cm}{*/}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{min}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{a}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

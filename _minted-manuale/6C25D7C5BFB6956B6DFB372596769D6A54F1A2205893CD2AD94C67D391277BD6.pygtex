@@ -1,0 +1,72 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: C Basics \PYGZhy{} Type Casting for Accurate Division}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program calculates the average of a set of grades. It highlights a}
+\PYG{c+cm}{    critical concept in C: type casting, which is necessary to get an accurate}
+\PYG{c+cm}{    decimal result from a division of two integers.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The problem with integer division when a decimal result is needed.}
+\PYG{c+cm}{    \PYGZhy{} Type Casting: Explicitly converting a value from one data type to another.}
+\PYG{c+cm}{    \PYGZhy{} Using \PYGZsq{}double\PYGZsq{} for floating\PYGZhy{}point numbers.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}\PYGZpc{}lf\PYGZsq{} format specifier for printing doubles.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}grades}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{current\PYGZus{}grade}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{average}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Use a \PYGZsq{}double\PYGZsq{} for the average to store decimal values.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many grades do you want to enter? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}grades}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter \PYGZpc{}d grades, one at a time:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}grades}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}grades}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter grade \PYGZsh{}\PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{current\PYGZus{}grade}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{current\PYGZus{}grade}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Shorthand for sum = sum + current\PYGZus{}grade}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// The Problem with Integer Division:}
+\PYG{+w}{    }\PYG{c+c1}{// If we were to write \PYGZsq{}average = sum / num\PYGZus{}grades;\PYGZsq{}, C would perform}
+\PYG{+w}{    }\PYG{c+c1}{// integer division, because both \PYGZsq{}sum\PYGZsq{} and \PYGZsq{}num\PYGZus{}grades\PYGZsq{} are integers.}
+\PYG{+w}{    }\PYG{c+c1}{// The result would be an integer, and any decimal part would be lost}
+\PYG{+w}{    }\PYG{c+c1}{// *before* it gets assigned to the \PYGZsq{}average\PYGZsq{} variable.}
+\PYG{+w}{    }\PYG{c+c1}{// For example, if sum=10 and num\PYGZus{}grades=4, `10 / 4` would result in 2, not 2.5.}
+
+\PYG{+w}{    }\PYG{c+c1}{// The Solution: Type Casting}
+\PYG{+w}{    }\PYG{c+c1}{// To fix this, we must convert one of the operands to a floating\PYGZhy{}point type}
+\PYG{+w}{    }\PYG{c+c1}{// *before* the division happens. We do this by prefixing the variable with}
+\PYG{+w}{    }\PYG{c+c1}{// the desired type in parentheses, like `(double)sum`.}
+\PYG{+w}{    }\PYG{c+c1}{// When one operand is a double, C performs floating\PYGZhy{}point division,}
+\PYG{+w}{    }\PYG{c+c1}{// preserving the decimal part of the result.}
+\PYG{+w}{    }\PYG{n}{average}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{num\PYGZus{}grades}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}\PYGZpc{}.2lf\PYGZsq{} format specifier tells printf to display a double (\PYGZsq{}lf\PYGZsq{})}
+\PYG{+w}{    }\PYG{c+c1}{// rounded to two decimal places (\PYGZsq{}.2\PYGZsq{}).}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The average of the grades is: \PYGZpc{}.2lf}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{average}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Remove the `(double)` cast from the calculation and see what happens.}
+\PYG{c+cm}{        Enter numbers that should result in a decimal average (e.g., 3 grades: 5, 5, 6).}
+\PYG{c+cm}{        You\PYGZsq{}ll see the incorrect result firsthand.}
+\PYG{c+cm}{    2.  What if you cast the entire result, like `(double)(sum / num\PYGZus{}grades)`?}
+\PYG{c+cm}{        Try it out. You\PYGZsq{}ll find that this doesn\PYGZsq{}t work, because the integer}
+\PYG{c+cm}{        division happens first inside the parentheses *before* the cast can occur.}
+\PYG{c+cm}{        This demonstrates that the cast must happen on an operand *before* the division.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

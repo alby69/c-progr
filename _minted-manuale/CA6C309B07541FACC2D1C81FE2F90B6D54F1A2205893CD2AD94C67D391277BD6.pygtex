@@ -1,0 +1,87 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Strings \PYGZhy{} Searching for a Character}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program searches for the first occurrence of the letter \PYGZsq{}t\PYGZsq{} (or \PYGZsq{}T\PYGZsq{})}
+\PYG{c+cm}{    in a given word. It then reports if the letter was found in the first or}
+\PYG{c+cm}{    second half of the word.}
+
+\PYG{c+cm}{    This is a great example of a linear search algorithm applied to a string.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Iterating through a string with a \PYGZsq{}for\PYGZsq{} loop.}
+\PYG{c+cm}{    \PYGZhy{} Character comparison.}
+\PYG{c+cm}{    \PYGZhy{} Handling case\PYGZhy{}insensitivity with `tolower()`.}
+\PYG{c+cm}{    \PYGZhy{} Using a \PYGZdq{}flag\PYGZdq{} variable to track if an item was found.}
+\PYG{c+cm}{    \PYGZhy{} Using `break` to exit a loop early.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}string.h\PYGZgt{}}\PYG{c+c1}{ // For strlen()}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}ctype.h\PYGZgt{}}\PYG{c+c1}{  // For tolower()}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{word}\PYG{p}{[}\PYG{l+m+mi}{51}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// A \PYGZdq{}flag\PYGZdq{} to track if we\PYGZsq{}ve found the letter. 0=false, 1=true.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter a word: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{word}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{length}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{strlen}\PYG{p}{(}\PYG{n}{word}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// We can loop through the string using a \PYGZsq{}for\PYGZsq{} loop, which is often}
+\PYG{+w}{    }\PYG{c+c1}{// cleaner than a \PYGZsq{}while\PYGZsq{} loop for this kind of task.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// To handle case\PYGZhy{}insensitivity, we can convert the current character}
+\PYG{+w}{        }\PYG{c+c1}{// to lowercase before comparing it. The tolower() function is from \PYGZlt{}ctype.h\PYGZgt{}.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{tolower}\PYG{p}{(}\PYG{n}{word}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}t\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Found \PYGZsq{}t\PYGZsq{} at index \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// The original logic for determining the \PYGZdq{}half\PYGZdq{} was a bit complex.}
+\PYG{+w}{            }\PYG{c+c1}{// Let\PYGZsq{}s simplify: if the index is less than half the length, it\PYGZsq{}s}
+\PYG{+w}{            }\PYG{c+c1}{// in the first half.}
+\PYG{+w}{            }\PYG{c+c1}{// Note on integer division: For length 5, `5 / 2` is 2.}
+\PYG{+w}{            }\PYG{c+c1}{// Indices 0, 1 are in the first half. Index 2 (the middle) is not.}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{length}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Output: 1 (first half)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Output: 2 (second half)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// We found the letter, so we set our flag to true...}
+\PYG{+w}{            }\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{            }\PYG{c+c1}{// ...and use \PYGZsq{}break\PYGZsq{} to exit the loop immediately. We only care}
+\PYG{+w}{            }\PYG{c+c1}{// about the *first* occurrence.}
+\PYG{+w}{            }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// After the loop has finished, we check the flag.}
+\PYG{+w}{    }\PYG{c+c1}{// If the flag is still false, it means the loop completed without ever}
+\PYG{+w}{    }\PYG{c+c1}{// finding the character.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The letter \PYGZsq{}t\PYGZsq{} was not found.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Output: \PYGZhy{}1}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  The definition of \PYGZdq{}half\PYGZdq{} can be tricky. In our version, for a word with}
+\PYG{c+cm}{        an odd length like \PYGZdq{}seven\PYGZdq{} (length 5), the middle character (at index 2)}
+\PYG{c+cm}{        is considered part of the \PYGZdq{}second half\PYGZdq{}. Is this the behavior you want?}
+\PYG{c+cm}{        How would you change the condition to include the middle character in the}
+\PYG{c+cm}{        first half?}
+\PYG{c+cm}{    2.  Can you modify this program to count *all* occurrences of \PYGZsq{}t\PYGZsq{}, not just}
+\PYG{c+cm}{        the first one? You would need a counter variable and you would remove}
+\PYG{c+cm}{        the `break` statement.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

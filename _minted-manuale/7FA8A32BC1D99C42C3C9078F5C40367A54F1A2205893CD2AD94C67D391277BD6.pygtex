@@ -1,0 +1,72 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Arrays \PYGZhy{} Storing and Accessing Data}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program introduces the concept of an array. An array is a collection}
+\PYG{c+cm}{    of elements of the same data type, stored in contiguous memory locations.}
+\PYG{c+cm}{    This allows you to manage a list of items using a single variable name.}
+
+\PYG{c+cm}{    This example creates an array to store recipe ingredient amounts, reads}
+\PYG{c+cm}{    values into it, and then retrieves a specific ingredient amount based on}
+\PYG{c+cm}{    a user\PYGZhy{}provided ID (index).}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Declaring an array with a fixed size.}
+\PYG{c+cm}{    \PYGZhy{} Accessing array elements using an index (e.g., `my\PYGZus{}array[0]`).}
+\PYG{c+cm}{    \PYGZhy{} The concept of zero\PYGZhy{}based indexing.}
+\PYG{c+cm}{    \PYGZhy{} Using a \PYGZsq{}for\PYGZsq{} loop to iterate over an array.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Array Declaration:}
+\PYG{+w}{    }\PYG{c+c1}{// This declares an array named \PYGZsq{}ingredients\PYGZsq{} that can hold 10 integers.}
+\PYG{+w}{    }\PYG{c+c1}{// The elements are accessed with an index from 0 to 9.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{ingredients}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{read\PYGZus{}id}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// The index of the ingredient to read back.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Please enter 10 integer ingredient amounts:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Populating the array using a loop:}
+\PYG{+w}{    }\PYG{c+c1}{// We loop from i = 0 to 9 to read a value for each of the 10 array slots.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter amount for ingredient \PYGZsh{}\PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{);}
+\PYG{+w}{        }\PYG{c+c1}{// We read the value into the element at the current index \PYGZsq{}i\PYGZsq{}.}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{ingredients}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{All ingredients entered.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Which ingredient ID (0\PYGZhy{}9) would you like to retrieve? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{read\PYGZus{}id}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Accessing an array element:}
+\PYG{+w}{    }\PYG{c+c1}{// We use the user\PYGZhy{}provided \PYGZsq{}read\PYGZus{}id\PYGZsq{} as the index to retrieve and print}
+\PYG{+w}{    }\PYG{c+c1}{// a specific value from the array.}
+\PYG{+w}{    }\PYG{c+c1}{// IMPORTANT: C does not check if the index is valid. If the user enters 15,}
+\PYG{+w}{    }\PYG{c+c1}{// the program will try to access memory outside the array\PYGZsq{}s bounds, which}
+\PYG{+w}{    }\PYG{c+c1}{// leads to \PYGZdq{}undefined behavior\PYGZdq{} (it might crash, or it might print garbage).}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{read\PYGZus{}id}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{read\PYGZus{}id}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The amount for ingredient ID \PYGZpc{}d is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{read\PYGZus{}id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ingredients}\PYG{p}{[}\PYG{n}{read\PYGZus{}id}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: Invalid ID. Please enter a value between 0 and 9.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Modify the program to calculate and print the sum of all the ingredient}
+\PYG{c+cm}{        amounts after they have been entered. You\PYGZsq{}ll need another \PYGZsq{}for\PYGZsq{} loop.}
+\PYG{c+cm}{    2.  Instead of hard\PYGZhy{}coding the size of the array to 10, use a constant}
+\PYG{c+cm}{        (e.g., `\PYGZsh{}define RECIPE\PYGZus{}SIZE 10`). This makes it much easier to change}
+\PYG{c+cm}{        the number of ingredients later, as you only have to modify one line.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

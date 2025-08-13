@@ -1,0 +1,119 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: C Basics \PYGZhy{} A Simple Unit Converter}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program is a simple unit converter that brings together many of the}
+\PYG{c+cm}{    concepts we\PYGZsq{}ve learned so far. It converts meters to feet, grams to pounds,}
+\PYG{c+cm}{    and Celsius to Fahrenheit.}
+
+\PYG{c+cm}{    This is a great example of a complete, small program.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Function prototyping (declaring functions before they are defined).}
+\PYG{c+cm}{    \PYGZhy{} Breaking a problem down into smaller functions.}
+\PYG{c+cm}{    \PYGZhy{} Using a loop to process multiple conversions.}
+\PYG{c+cm}{    \PYGZhy{} Conditional logic with \PYGZsq{}if\PYGZhy{}else if\PYGZhy{}else\PYGZsq{}.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}switch\PYGZsq{} statement for multi\PYGZhy{}way branching.}
+\PYG{c+cm}{    \PYGZhy{} Using \PYGZsq{}const\PYGZsq{} for defining constants.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function Prototypes:}
+\PYG{c+c1}{// These lines tell the main function about the functions we plan to use later.}
+\PYG{c+c1}{// This is necessary because we define them *after* main(), but we call them}
+\PYG{c+c1}{// *inside* main(). A prototype specifies the function\PYGZsq{}s return type, name,}
+\PYG{c+c1}{// and the types of its arguments.}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{perform\PYGZus{}conversion}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{value}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{input\PYGZus{}unit}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}conversions}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{input\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{output\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{input\PYGZus{}unit\PYGZus{}char}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// e.g., \PYGZsq{}m\PYGZsq{}, \PYGZsq{}g\PYGZsq{}, \PYGZsq{}c\PYGZsq{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many conversions would you like to perform? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}conversions}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}conversions}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Enter the value and unit (m, g, or c) for conversion \PYGZsh{}\PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}lf \PYGZpc{}c\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{input\PYGZus{}value}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{input\PYGZus{}unit\PYGZus{}char}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// We call our conversion function to get the result.}
+\PYG{+w}{        }\PYG{n}{output\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{perform\PYGZus{}conversion}\PYG{p}{(}\PYG{n}{input\PYGZus{}value}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{input\PYGZus{}unit\PYGZus{}char}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Check if the conversion was successful. Our function returns a special}
+\PYG{+w}{        }\PYG{c+c1}{// value (\PYGZhy{}1.0 in this case, a simple error handling method) to indicate}
+\PYG{+w}{        }\PYG{c+c1}{// an invalid unit was entered.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{output\PYGZus{}value}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mf}{\PYGZhy{}1.0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Error: Invalid unit \PYGZsq{}\PYGZpc{}c\PYGZsq{}. Please use \PYGZsq{}m\PYGZsq{}, \PYGZsq{}g\PYGZsq{}, or \PYGZsq{}c\PYGZsq{}.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{input\PYGZus{}unit\PYGZus{}char}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Here we use a \PYGZsq{}switch\PYGZsq{} statement to print the correct unit label.}
+\PYG{+w}{            }\PYG{c+c1}{// A switch is often cleaner than a long if\PYGZhy{}else\PYGZhy{}if chain when you are}
+\PYG{+w}{            }\PYG{c+c1}{// checking a single variable against multiple constant values.}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Result: \PYGZpc{}.6lf \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{output\PYGZus{}value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{switch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{input\PYGZus{}unit\PYGZus{}char}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}m\PYGZsq{}}\PYG{p}{:}
+\PYG{+w}{                    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}ft}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k}{break}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// The \PYGZsq{}break\PYGZsq{} is important! It exits the switch.}
+\PYG{+w}{                }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}g\PYGZsq{}}\PYG{p}{:}
+\PYG{+w}{                    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}lbs}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}c\PYGZsq{}}\PYG{p}{:}
+\PYG{+w}{                    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}F}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    This function contains the logic for the conversions.}
+\PYG{c+cm}{    It takes the value and the input unit character.}
+\PYG{c+cm}{    It returns the converted value, or \PYGZhy{}1.0 if the unit is invalid.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{perform\PYGZus{}conversion}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{value}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{input\PYGZus{}unit}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Using \PYGZsq{}const\PYGZsq{} declares a variable whose value cannot be changed.}
+\PYG{+w}{    }\PYG{c+c1}{// This is good practice for conversion factors and other magic numbers.}
+\PYG{+w}{    }\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{METERS\PYGZus{}TO\PYGZus{}FEET}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{3.2808}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{GRAMS\PYGZus{}TO\PYGZus{}POUNDS}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.002205}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k}{switch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{input\PYGZus{}unit}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}m\PYGZsq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{c+c1}{// meters to feet}
+\PYG{+w}{            }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{value}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{METERS\PYGZus{}TO\PYGZus{}FEET}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}g\PYGZsq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{c+c1}{// grams to pounds}
+\PYG{+w}{            }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{value}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{GRAMS\PYGZus{}TO\PYGZus{}POUNDS}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}c\PYGZsq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{c+c1}{// Celsius to Fahrenheit}
+\PYG{+w}{            }\PYG{c+c1}{// The formula is: F = (C * 9/5) + 32.  1.8 is the same as 9/5.}
+\PYG{+w}{            }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{32.0}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{1.8}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{default}\PYG{o}{:}\PYG{+w}{ }\PYG{c+c1}{// Handle invalid units}
+\PYG{+w}{            }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{\PYGZhy{}1.0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Use a special value to signal an error}
+\PYG{+w}{            }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Add more conversions! For example, add a case for converting from}
+\PYG{c+cm}{        kilograms (\PYGZsq{}k\PYGZsq{}) to pounds. You\PYGZsq{}ll need to add it to the switch}
+\PYG{c+cm}{        statement and provide the correct conversion factor.}
+\PYG{c+cm}{    2.  This program only converts from metric to imperial. Can you add the}
+\PYG{c+cm}{        reverse conversions? You might need to add new character codes (e.g., \PYGZsq{}f\PYGZsq{}}
+\PYG{c+cm}{        for feet) and expand the logic to handle them.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

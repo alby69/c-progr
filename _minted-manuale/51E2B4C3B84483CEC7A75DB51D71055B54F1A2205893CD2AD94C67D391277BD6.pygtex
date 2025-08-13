@@ -1,0 +1,72 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: C Basics \PYGZhy{} Reading Multiple Inputs with a Loop}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates how to use a loop to read a specific number of}
+\PYG{c+cm}{    inputs from the user and calculate their sum.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsq{}for\PYGZsq{} loop for repeating actions a set number of times.}
+\PYG{c+cm}{    \PYGZhy{} Using a counter variable in a loop.}
+\PYG{c+cm}{    \PYGZhy{} Combining scanf() with a loop for multiple inputs.}
+\PYG{c+cm}{    \PYGZhy{} Accumulating a sum.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// how\PYGZus{}many\PYGZus{}to\PYGZus{}sum: stores the total count of numbers the user wants to add.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{how\PYGZus{}many\PYGZus{}to\PYGZus{}sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// current\PYGZus{}number: stores the number entered by the user in each iteration of the loop.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{current\PYGZus{}number}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// sum: an \PYGZdq{}accumulator\PYGZdq{} variable, initialized to 0, to store the running total.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many numbers do you want to sum? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// Read the total count from the user.}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{how\PYGZus{}many\PYGZus{}to\PYGZus{}sum}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Great! Please enter \PYGZpc{}d numbers, one at a time.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{how\PYGZus{}many\PYGZus{}to\PYGZus{}sum}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}for\PYGZsq{} loop:}
+\PYG{+w}{    }\PYG{c+c1}{// This is a powerful construct for repeating a block of code.}
+\PYG{+w}{    }\PYG{c+c1}{// It consists of three parts, separated by semicolons:}
+\PYG{+w}{    }\PYG{c+c1}{// 1. Initialization (int i = 0): Runs once at the beginning. Creates a counter \PYGZsq{}i\PYGZsq{}.}
+\PYG{+w}{    }\PYG{c+c1}{// 2. Condition (i \PYGZlt{} how\PYGZus{}many\PYGZus{}to\PYGZus{}sum): Checked before each iteration. The loop}
+\PYG{+w}{    }\PYG{c+c1}{//    continues as long as this condition is true.}
+\PYG{+w}{    }\PYG{c+c1}{// 3. Post\PYGZhy{}iteration (i++): Runs at the end of each iteration. Increments the counter.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{how\PYGZus{}many\PYGZus{}to\PYGZus{}sum}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter number \PYGZpc{}d: \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// We use i+1 to show a 1\PYGZhy{}based count to the user.}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{current\PYGZus{}number}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Accumulation:}
+\PYG{+w}{        }\PYG{c+c1}{// We add the number just entered to our running total.}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZsq{}sum = sum + current\PYGZus{}number;\PYGZsq{} is often written with the shorthand \PYGZsq{}sum += current\PYGZus{}number;\PYGZsq{}.}
+\PYG{+w}{        }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{current\PYGZus{}number}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}You entered \PYGZpc{}d. The current sum is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{current\PYGZus{}number}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sum}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{All numbers have been entered.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The final sum is: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sum}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Can you modify this program to calculate the average of the numbers instead}
+\PYG{c+cm}{        of the sum? You would calculate the sum first, then divide by \PYGZsq{}how\PYGZus{}many\PYGZus{}to\PYGZus{}sum\PYGZsq{}.}
+\PYG{c+cm}{        Be careful about integer division vs. floating\PYGZhy{}point division! You might}
+\PYG{c+cm}{        need to use \PYGZsq{}double\PYGZsq{} or \PYGZsq{}float\PYGZsq{} variables.}
+\PYG{c+cm}{    2.  What if you wanted to find the largest number entered instead of the sum?}
+\PYG{c+cm}{        You would need a new variable, maybe called \PYGZsq{}largest\PYGZus{}so\PYGZus{}far\PYGZsq{}, and an \PYGZsq{}if\PYGZsq{}}
+\PYG{c+cm}{        statement inside the loop to update it.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

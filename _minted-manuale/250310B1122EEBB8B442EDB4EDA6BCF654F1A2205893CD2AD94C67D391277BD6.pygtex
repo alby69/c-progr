@@ -1,0 +1,77 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Strings \PYGZhy{} Pointers and String Literals}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program determines the name of a fictional tree based on its height}
+\PYG{c+cm}{    and number of leaflets.}
+
+\PYG{c+cm}{    While the filename mentions concatenation, this program\PYGZsq{}s core concept is}
+\PYG{c+cm}{    actually about **character pointers** and **string literals**.}
+
+\PYG{c+cm}{    A \PYGZdq{}string literal\PYGZdq{} is a sequence of characters enclosed in double quotes,}
+\PYG{c+cm}{    like \PYGZdq{}hello world\PYGZdq{}. When you write this in your code, the compiler stores}
+\PYG{c+cm}{    this string in a special, often read\PYGZhy{}only, part of the program\PYGZsq{}s memory.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Character pointers (`char *`).}
+\PYG{c+cm}{    \PYGZhy{} String literals.}
+\PYG{c+cm}{    \PYGZhy{} Assigning the address of a string literal to a character pointer.}
+\PYG{c+cm}{    \PYGZhy{} Using `if\PYGZhy{}else if` to implement a set of rules.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{height}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{leaflets}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// Here, `tree\PYGZus{}name` is a POINTER to a character.}
+\PYG{+w}{    }\PYG{c+c1}{// We initialize it to point to the beginning of the string literal \PYGZdq{}uncertain\PYGZdq{}.}
+\PYG{+w}{    }\PYG{c+c1}{// This doesn\PYGZsq{}t copy the string; it just stores the memory address of the \PYGZsq{}u\PYGZsq{}.}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{tree\PYGZus{}name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}uncertain\PYGZdq{}}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the tree\PYGZsq{}s height: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{height}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter the number of leaflets: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{leaflets}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The following `if\PYGZhy{}else if` chain checks the rules.}
+\PYG{+w}{    }\PYG{c+c1}{// If a rule matches, we simply change the `tree\PYGZus{}name` pointer to point to}
+\PYG{+w}{    }\PYG{c+c1}{// a *different* string literal. No strings are being copied or modified.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{height}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{leaflets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{tree\PYGZus{}name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Tinuviel\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{height}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{leaflets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{tree\PYGZus{}name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Calaelen\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{height}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{leaflets}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{tree\PYGZus{}name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Falarion\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{height}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{leaflets}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{7}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{tree\PYGZus{}name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Dorthonion\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// If none of the conditions match, `tree\PYGZus{}name` keeps its original value, \PYGZdq{}uncertain\PYGZdq{}.}
+
+\PYG{+w}{    }\PYG{c+c1}{// The `\PYGZpc{}s` format specifier tells printf to go to the address stored in}
+\PYG{+w}{    }\PYG{c+c1}{// `tree\PYGZus{}name` and print characters until it finds a null terminator.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The tree\PYGZsq{}s name is: \PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{tree\PYGZus{}name}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What is the difference between `char *name = \PYGZdq{}My Name\PYGZdq{};` and}
+\PYG{c+cm}{        `char name[] = \PYGZdq{}My Name\PYGZdq{};`? This is a crucial and classic C question.}
+\PYG{c+cm}{        \PYGZhy{} `char *name` creates a pointer to a read\PYGZhy{}only string literal. You}
+\PYG{c+cm}{          can re\PYGZhy{}point `name` to something else, but you should NOT try to}
+\PYG{c+cm}{          modify the content (e.g., `name[0] = \PYGZsq{}m\PYGZsq{};` is undefined behavior).}
+\PYG{c+cm}{        \PYGZhy{} `char name[]` creates an ARRAY and initializes it by copying the}
+\PYG{c+cm}{          string literal into it. The array is writable, so you CAN modify}
+\PYG{c+cm}{          its contents. However, you cannot re\PYGZhy{}point `name` itself to a}
+\PYG{c+cm}{          different string.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

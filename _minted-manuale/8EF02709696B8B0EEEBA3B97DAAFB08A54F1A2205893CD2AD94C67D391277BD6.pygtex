@@ -1,0 +1,82 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: C Basics \PYGZhy{} A Simple Function for Summation}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    Welcome to your C tutorial! This first exercise covers some of the most}
+\PYG{c+cm}{    fundamental concepts in C programming.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZsh{}include directive for using standard libraries.}
+\PYG{c+cm}{    \PYGZhy{} The main() function: the entry point of every C program.}
+\PYG{c+cm}{    \PYGZhy{} Declaring integer variables.}
+\PYG{c+cm}{    \PYGZhy{} Using printf() for output to the console.}
+\PYG{c+cm}{    \PYGZhy{} Using scanf() to read user input.}
+\PYG{c+cm}{    \PYGZhy{} Defining and calling a simple function.}
+\PYG{c+cm}{    \PYGZhy{} The return statement.}
+\PYG{c+cm}{*/}
+
+\PYG{c+c1}{// The \PYGZsh{}include directive tells the compiler to include the contents of a file.}
+\PYG{c+c1}{// \PYGZlt{}stdio.h\PYGZgt{} is the standard input/output library in C. It provides functions}
+\PYG{c+c1}{// like printf() and scanf().}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    This is a user\PYGZhy{}defined function named \PYGZsq{}sum\PYGZsq{}.}
+\PYG{c+cm}{    \PYGZhy{} It takes two integer arguments, \PYGZsq{}x\PYGZsq{} and \PYGZsq{}y\PYGZsq{}.}
+\PYG{c+cm}{    \PYGZhy{} It returns an integer value, which is the result of their addition.}
+\PYG{c+cm}{    \PYGZhy{} Defining functions like this helps in organizing code and reusing it.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{sum}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}return\PYGZsq{} statement provides the result of the function call.}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    The main() function is special. It\PYGZsq{}s where the execution of any C program begins.}
+\PYG{c+cm}{    \PYGZsq{}int\PYGZsq{} before main indicates that the function returns an integer value.}
+\PYG{c+cm}{    \PYGZsq{}void\PYGZsq{} in the parentheses means it takes no arguments.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Variable Declaration:}
+\PYG{+w}{    }\PYG{c+c1}{// We declare two integer variables, \PYGZsq{}a\PYGZsq{} and \PYGZsq{}b\PYGZsq{}, to store the numbers}
+\PYG{+w}{    }\PYG{c+c1}{// provided by the user.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// We use printf() to display a message to the user, prompting them for input.}
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}\PYGZbs{}n\PYGZsq{} at the end of a string is an \PYGZdq{}escape sequence\PYGZdq{} that represents a newline character.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Please enter two numbers separated by a space: \PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Using scanf() to read input from the user:}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{} The first argument \PYGZdq{}\PYGZpc{}d\PYGZpc{}d\PYGZdq{} is a format string. It tells scanf() to expect}
+\PYG{+w}{    }\PYG{c+c1}{//   two integer values.}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{} The following arguments, \PYGZam{}a and \PYGZam{}b, are the memory addresses of the variables}
+\PYG{+w}{    }\PYG{c+c1}{//   where the input values should be stored. The \PYGZsq{}\PYGZam{}\PYGZsq{} is the \PYGZdq{}address\PYGZhy{}of\PYGZdq{} operator.}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{b}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Calling our \PYGZsq{}sum\PYGZsq{} function:}
+\PYG{+w}{    }\PYG{c+c1}{// We pass the user\PYGZsq{}s numbers (a and b) to our sum() function.}
+\PYG{+w}{    }\PYG{c+c1}{// The returned value is then used as an argument to printf().}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}The result of the sum is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sum}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}return 0;\PYGZsq{} statement at the end of main() indicates that the program}
+\PYG{+w}{    }\PYG{c+c1}{// has executed successfully. A non\PYGZhy{}zero value typically indicates an error.}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Can you modify this program to calculate the product of the two numbers}
+\PYG{c+cm}{        instead of the sum? You\PYGZsq{}ll need to create a new function called \PYGZsq{}product\PYGZsq{}.}
+\PYG{c+cm}{    2.  What happens if the user enters a non\PYGZhy{}integer value (like \PYGZdq{}hello\PYGZdq{})?}
+\PYG{c+cm}{        Experiment and see. We\PYGZsq{}ll cover how to handle such errors later.}
+\PYG{c+cm}{    3.  Try creating functions for subtraction and division. Remember that division}
+\PYG{c+cm}{        with integers might not give you the result you expect if there\PYGZsq{}s a}
+\PYG{c+cm}{        remainder!}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

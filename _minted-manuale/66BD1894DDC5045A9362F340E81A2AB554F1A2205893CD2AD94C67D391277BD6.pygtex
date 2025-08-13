@@ -1,0 +1,76 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Pointers \PYGZhy{} Modifying Variables via Functions}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This example reinforces a key use case for pointers: allowing a function to}
+\PYG{c+cm}{    modify a variable from its calling scope. Here, we pass a pointer to an \PYGZsq{}age\PYGZsq{}}
+\PYG{c+cm}{    variable to a function that changes the age based on some conditions.}
+
+\PYG{c+cm}{    This is a very common pattern in C programming.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Passing a pointer to a function.}
+\PYG{c+cm}{    \PYGZhy{} Dereferencing the pointer within the function to read the original value.}
+\PYG{c+cm}{    \PYGZhy{} Dereferencing the pointer to write a new value back to the original variable.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function prototype: takes a pointer to an integer.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{applyElixir}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{age}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// We can use a pointer to read input with scanf.}
+\PYG{+w}{    }\PYG{c+c1}{// `\PYGZam{}age` gives the address of \PYGZsq{}age\PYGZsq{}, which is what scanf needs.}
+\PYG{+w}{    }\PYG{c+c1}{// `age\PYGZus{}ptr` also holds the address of \PYGZsq{}age\PYGZsq{}. So they are interchangeable here.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{age}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter your current age: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{age\PYGZus{}ptr}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Same as `scanf(\PYGZdq{}\PYGZpc{}d\PYGZdq{}, \PYGZam{}age);`}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Your current age is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{age}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Call the function, passing the address of the \PYGZsq{}age\PYGZsq{} variable.}
+\PYG{+w}{    }\PYG{n}{applyElixir}\PYG{p}{(}\PYG{n}{age\PYGZus{}ptr}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Same as `applyElixir(\PYGZam{}age);`}
+
+\PYG{+w}{    }\PYG{c+c1}{// The \PYGZsq{}age\PYGZsq{} variable in main has now been changed by the function.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}You drank the elixir... your new age is \PYGZpc{}d!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{age}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: applyElixir}
+\PYG{c+cm}{    Purpose: Modifies an age value based on a set of rules.}
+\PYG{c+cm}{    Parameters:}
+\PYG{c+cm}{        \PYGZhy{} age\PYGZus{}ptr: A pointer to the integer \PYGZsq{}age\PYGZsq{} variable from main().}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{applyElixir}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// We dereference the pointer `*age\PYGZus{}ptr` to get the current age value}
+\PYG{+w}{    }\PYG{c+c1}{// to use in our comparison.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{21}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// If the age is over 21, subtract 10.}
+\PYG{+w}{        }\PYG{c+c1}{// We dereference the pointer again to assign the new value.}
+\PYG{+w}{        }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Otherwise, double the age.}
+\PYG{+w}{        }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{age\PYGZus{}ptr}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  The `applyElixir` function modifies the age \PYGZdq{}in\PYGZhy{}place\PYGZdq{}. Can you rewrite it}
+\PYG{c+cm}{        so that it doesn\PYGZsq{}t take a pointer, but instead `return`s the new age?}
+\PYG{c+cm}{        `int calculateNewAge(int current\PYGZus{}age);`}
+\PYG{c+cm}{        You would then call it from main like this: `age = calculateNewAge(age);`.}
+\PYG{c+cm}{        Both are valid patterns, and choosing between them is a design decision.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

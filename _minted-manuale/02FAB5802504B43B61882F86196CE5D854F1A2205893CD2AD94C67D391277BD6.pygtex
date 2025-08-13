@@ -1,0 +1,78 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Pointers \PYGZhy{} The Classic Swap Function}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates one of the most essential and classic uses for}
+\PYG{c+cm}{    pointers: a function that swaps the values of two variables.}
+
+\PYG{c+cm}{    If you were to write a `swap` function that took regular integers (`int a, int b`)}
+\PYG{c+cm}{    instead of pointers, it would fail. The function would only receive *copies*}
+\PYG{c+cm}{    of the original values, and swapping those copies would have no effect on the}
+\PYG{c+cm}{    original variables in `main`.}
+
+\PYG{c+cm}{    To make the swap permanent, the function needs to know the *memory addresses*}
+\PYG{c+cm}{    of the original variables, which requires pointers.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} A canonical use case for pointers.}
+\PYG{c+cm}{    \PYGZhy{} The logic of swapping two values using a temporary variable.}
+\PYG{c+cm}{    \PYGZhy{} Passing the addresses of two different variables to a single function.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function prototype for our swap function.}
+\PYG{c+c1}{// It takes two \PYGZdq{}pointers to int\PYGZdq{} as arguments.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{swap}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}b}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{9}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{b}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Before swap: a = \PYGZpc{}d, b = \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// We call the swap function, passing the memory addresses of \PYGZsq{}a\PYGZsq{} and \PYGZsq{}b\PYGZsq{}.}
+\PYG{+w}{    }\PYG{n}{swap}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{b}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}After swap:  a = \PYGZpc{}d, b = \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: swap}
+\PYG{c+cm}{    Purpose: Swaps the integer values stored at two different memory addresses.}
+\PYG{c+cm}{    Parameters:}
+\PYG{c+cm}{        \PYGZhy{} ptr\PYGZus{}a: A pointer to the first integer variable.}
+\PYG{c+cm}{        \PYGZhy{} ptr\PYGZus{}b: A pointer to the second integer variable.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{swap}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{temp}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// A temporary variable is essential for a swap.}
+
+\PYG{+w}{    }\PYG{c+c1}{// 1. Store the value from the first address (`*ptr\PYGZus{}a`) in `temp`.}
+\PYG{+w}{    }\PYG{n}{temp}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}a}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// 2. Copy the value from the second address (`*ptr\PYGZus{}b`) into the first address.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}a}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}b}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// 3. Copy the value we originally stored in `temp` into the second address.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{n}{ptr\PYGZus{}b}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{temp}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  As a challenge, try to write the incorrect version of swap:}
+\PYG{c+cm}{        `void failedSwap(int a, int b)`. Put the swap logic inside and call it}
+\PYG{c+cm}{        from main. You will see that it does not work, which is the best way to}
+\PYG{c+cm}{        understand why pointers are needed here.}
+\PYG{c+cm}{    2.  We used this swap logic in the `04\PYGZus{}Arrays/06\PYGZus{}reversing\PYGZus{}an\PYGZus{}array.c`}
+\PYG{c+cm}{        example. Can you go back to that file and modify it to use this new,}
+\PYG{c+cm}{        reusable `swap()` function?}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

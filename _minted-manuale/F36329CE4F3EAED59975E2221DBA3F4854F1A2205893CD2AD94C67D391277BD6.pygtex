@@ -1,0 +1,80 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Strings and Arrays \PYGZhy{} Word Length Frequency Counter}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program reads a number of words and then calculates the frequency of}
+\PYG{c+cm}{    each word length. For example, it counts how many 3\PYGZhy{}letter words, 4\PYGZhy{}letter}
+\PYG{c+cm}{    words, etc., were entered by the user.}
+
+\PYG{c+cm}{    This is a fantastic example of a common programming pattern: using an}
+\PYG{c+cm}{    array as a frequency counter or histogram.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Using an array as a frequency counter.}
+\PYG{c+cm}{    \PYGZhy{} The importance of initializing an array to zero.}
+\PYG{c+cm}{    \PYGZhy{} Using one variable\PYGZsq{}s value (word length) as an index for another array.}
+\PYG{c+cm}{    \PYGZhy{} Preventing out\PYGZhy{}of\PYGZhy{}bounds array access.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}string.h\PYGZgt{}}\PYG{c+c1}{ // For strlen()}
+
+\PYG{c+c1}{// It\PYGZsq{}s good practice to use constants for array sizes.}
+\PYG{c+cp}{\PYGZsh{}define MAX\PYGZus{}WORD\PYGZus{}LENGTH 10}
+\PYG{c+cp}{\PYGZsh{}define MAX\PYGZus{}WORDS 50}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num\PYGZus{}words\PYGZus{}to\PYGZus{}read}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{current\PYGZus{}word}\PYG{p}{[}\PYG{n}{MAX\PYGZus{}WORD\PYGZus{}LENGTH}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{];}\PYG{+w}{ }\PYG{c+c1}{// +1 for the null terminator}
+
+\PYG{+w}{    }\PYG{c+c1}{// This is our frequency array. The index will represent the word length.}
+\PYG{+w}{    }\PYG{c+c1}{// `length\PYGZus{}counts[3]` will store the number of 3\PYGZhy{}letter words.}
+\PYG{+w}{    }\PYG{c+c1}{// We make it size `MAX\PYGZus{}WORD\PYGZus{}LENGTH + 1` to safely handle words of length}
+\PYG{+w}{    }\PYG{c+c1}{// up to MAX\PYGZus{}WORD\PYGZus{}LENGTH (indices 0 through 10).}
+\PYG{+w}{    }\PYG{c+c1}{// Initializing with `\PYGZob{}0\PYGZcb{}` sets all elements to zero, which is crucial.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{length\PYGZus{}counts}\PYG{p}{[}\PYG{n}{MAX\PYGZus{}WORD\PYGZus{}LENGTH}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many words do you want to analyze (up to \PYGZpc{}d)? \PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{MAX\PYGZus{}WORDS}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num\PYGZus{}words\PYGZus{}to\PYGZus{}read}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{num\PYGZus{}words\PYGZus{}to\PYGZus{}read}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{MAX\PYGZus{}WORDS}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{num\PYGZus{}words\PYGZus{}to\PYGZus{}read}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Invalid number of words.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter \PYGZpc{}d words (max length \PYGZpc{}d each):}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num\PYGZus{}words\PYGZus{}to\PYGZus{}read}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{MAX\PYGZus{}WORD\PYGZus{}LENGTH}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{num\PYGZus{}words\PYGZus{}to\PYGZus{}read}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{current\PYGZus{}word}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{current\PYGZus{}length}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{strlen}\PYG{p}{(}\PYG{n}{current\PYGZus{}word}\PYG{p}{);}
+\PYG{+w}{        }\PYG{c+c1}{// The original code printed here, which can be noisy.}
+\PYG{+w}{        }\PYG{c+c1}{// printf(\PYGZdq{}Read word: \PYGZbs{}\PYGZdq{}\PYGZpc{}s\PYGZbs{}\PYGZdq{}, length: \PYGZpc{}d\PYGZbs{}n\PYGZdq{}, current\PYGZus{}word, current\PYGZus{}length);}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} The Core Logic \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{c+c1}{// We use the length of the word as an index into our frequency array.}
+\PYG{+w}{        }\PYG{c+c1}{// But first, we must check if the length is within the bounds of our array!}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{current\PYGZus{}length}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{MAX\PYGZus{}WORD\PYGZus{}LENGTH}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// If the word has length `L`, we increment the counter at index `L`.}
+\PYG{+w}{            }\PYG{n}{length\PYGZus{}counts}\PYG{p}{[}\PYG{n}{current\PYGZus{}length}\PYG{p}{]}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Warning: The word }\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s}{\PYGZpc{}s}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s}{ is too long and will be ignored.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{current\PYGZus{}word}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Printing the Results \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Word Length Frequency \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// We loop through our frequency array to print the results.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{MAX\PYGZus{}WORD\PYGZus{}LENGTH}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// We only print the counts for lengths that we actually saw.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{length\PYGZus{}counts}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}There are \PYGZpc{}d word(s) with \PYGZpc{}d letter(s).}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{length\PYGZus{}counts}\PYG{p}{[}\PYG{n}{j}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{j}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\end{Verbatim}

@@ -1,0 +1,93 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Algorithms \PYGZhy{} Binary Search (Bisection Search)}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates a much more efficient searching algorithm called a}
+\PYG{c+cm}{    **Binary Search** or **Bisection Search**.}
+
+\PYG{c+cm}{    The core idea is to repeatedly divide the search interval in half. If the}
+\PYG{c+cm}{    value of the search key is less than the item in the middle of the interval,}
+\PYG{c+cm}{    narrow the interval to the lower half. Otherwise, narrow it to the upper half.}
+\PYG{c+cm}{    This is continued until the value is found or the interval is empty.}
+
+\PYG{c+cm}{    **CRITICAL REQUIREMENT: Binary search ONLY works on a SORTED list.**}
+
+\PYG{c+cm}{    Characteristics of Binary Search:}
+\PYG{c+cm}{    \PYGZhy{} Efficiency: It is extremely fast. For a list of `n` items, it takes at}
+\PYG{c+cm}{      most `log2(n)` comparisons. For a list of 1,000,000 items, a linear search}
+\PYG{c+cm}{      might take 1,000,000 steps, while a binary search will take at most 20!}
+\PYG{c+cm}{      This is \PYGZdq{}logarithmic\PYGZdq{} or O(log n) time complexity.}
+\PYG{c+cm}{    \PYGZhy{} Data Requirement: The data MUST be sorted.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} The binary search algorithm.}
+\PYG{c+cm}{    \PYGZhy{} Manipulating interval boundaries (lower and upper bounds).}
+\PYG{c+cm}{    \PYGZhy{} The power of \PYGZdq{}divide and conquer\PYGZdq{} algorithms.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Note that this list is already sorted in ascending order.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{\PYGZhy{}10}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}3}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{77}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{106}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{759}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{900}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// We need three variables to track our search space:}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{lower\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{        }\PYG{c+c1}{// The starting index of our search space.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{upper\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{    }\PYG{c+c1}{// The ending index of our search space.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{midpoint}\PYG{p}{;}\PYG{+w}{               }\PYG{c+c1}{// The calculated middle index.}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Which number are you looking for? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The loop continues as long as we haven\PYGZsq{}t found the item AND our search}
+\PYG{+w}{    }\PYG{c+c1}{// space is still valid (the lower bound hasn\PYGZsq{}t crossed the upper bound).}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{lower\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{upper\PYGZus{}bound}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Calculate the middle index of the current search space.}
+\PYG{+w}{        }\PYG{n}{midpoint}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{lower\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{upper\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{lower\PYGZus{}bound}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Avoids overflow for huge arrays}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Searching between index \PYGZpc{}d and \PYGZpc{}d... Midpoint is \PYGZpc{}d (value \PYGZpc{}d)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{lower\PYGZus{}bound}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{upper\PYGZus{}bound}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{midpoint}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{midpoint}\PYG{p}{]);}
+
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{midpoint}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// We found it!}
+\PYG{+w}{            }\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{[}\PYG{n}{midpoint}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// The item must be in the lower half.}
+\PYG{+w}{            }\PYG{c+c1}{// We discard the top half by moving our upper bound.}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{} \PYGZhy{}\PYGZgt{} Item is smaller, tossing the top half.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{upper\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{midpoint}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// item\PYGZus{}to\PYGZus{}find \PYGZgt{} list[midpoint]}
+\PYG{+w}{            }\PYG{c+c1}{// The item must be in the upper half.}
+\PYG{+w}{            }\PYG{c+c1}{// We discard the bottom half by moving our lower bound.}
+\PYG{+w}{            }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{} \PYGZhy{}\PYGZgt{} Item is larger, tossing the bottom half.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{lower\PYGZus{}bound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{midpoint}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{found\PYGZus{}flag}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Number \PYGZpc{}d was not found in the array.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Note: `midpoint` will hold the correct index if the item was found.}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Number \PYGZpc{}d was found at index \PYGZpc{}d in the array.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{item\PYGZus{}to\PYGZus{}find}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{midpoint}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Try searching for a number that isn\PYGZsq{}t in the list (e.g., 6) and watch how}
+\PYG{c+cm}{        the search space (lower\PYGZus{}bound and upper\PYGZus{}bound) shrinks until it becomes}
+\PYG{c+cm}{        invalid (`lower\PYGZus{}bound \PYGZgt{} upper\PYGZus{}bound`), causing the loop to terminate.}
+\PYG{c+cm}{    2.  What happens if the list is not sorted? Try changing the order of the}
+\PYG{c+cm}{        elements in the `list` array and see how the algorithm fails. This will}
+\PYG{c+cm}{        prove why the sorted requirement is so important.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

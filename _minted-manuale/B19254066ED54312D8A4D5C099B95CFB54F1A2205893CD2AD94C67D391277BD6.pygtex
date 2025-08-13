@@ -1,0 +1,77 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Structs and Memory Layout (Padding)}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program uses the `sizeof` operator to inspect the amount of memory}
+\PYG{c+cm}{    used by a `struct` and its individual members.}
+
+\PYG{c+cm}{    This often reveals a surprising and important concept in C: **structure padding**.}
+
+\PYG{c+cm}{    You might expect the total size of the `struct` to be the exact sum of the}
+\PYG{c+cm}{    sizes of its members. However, it is often larger. The compiler adds invisible,}
+\PYG{c+cm}{    unused bytes (\PYGZdq{}padding\PYGZdq{}) between members to ensure that each member is}
+\PYG{c+cm}{    aligned on a memory address that is a multiple of its size. This is done}
+\PYG{c+cm}{    for performance reasons, as accessing aligned data is much faster on most}
+\PYG{c+cm}{    computer architectures.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Using `sizeof` on a `struct` type and its members.}
+\PYG{c+cm}{    \PYGZhy{} Structure padding and memory alignment.}
+\PYG{c+cm}{    \PYGZhy{} The `\PYGZpc{}zu` format specifier for printing `size\PYGZus{}t` types (the type returned by `sizeof`).}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// We use smaller array sizes here to make the padding more obvious.}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{firstName}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{];}\PYG{+w}{ }\PYG{c+c1}{// 5 bytes}
+\PYG{+w}{    }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{lastName}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{];}\PYG{+w}{  }\PYG{c+c1}{// 5 bytes}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{birthYear}\PYG{p}{;}\PYG{+w}{     }\PYG{c+c1}{// Usually 4 bytes}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{aveGrade}\PYG{p}{;}\PYG{+w}{   }\PYG{c+c1}{// Usually 8 bytes}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{+w}{ }\PYG{n}{me}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// The `\PYGZpc{}zu` format specifier is the correct, portable way to print a value}
+\PYG{+w}{    }\PYG{c+c1}{// of type `size\PYGZus{}t`, which is what `sizeof` returns.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Size of firstName is \PYGZpc{}zu bytes.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{));}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Size of lastName is \PYGZpc{}zu bytes.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{lastName}\PYG{p}{));}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Size of birthYear is \PYGZpc{}zu bytes.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{birthYear}\PYG{p}{));}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Size of aveGrade is \PYGZpc{}zu bytes.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{aveGrade}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{k+kt}{size\PYGZus{}t}\PYG{+w}{ }\PYG{n}{sum\PYGZus{}of\PYGZus{}members}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{firstName}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{lastName}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{                              }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{birthYear}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{n}{me}\PYG{p}{.}\PYG{n}{aveGrade}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{Sum of the sizes of individual members: \PYGZpc{}zu bytes.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sum\PYGZus{}of\PYGZus{}members}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Now, let\PYGZsq{}s see the size of the entire structure.}
+\PYG{+w}{    }\PYG{c+c1}{// It will likely be larger than the sum of its parts!}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Total size of the \PYGZsq{}struct student\PYGZsq{} is \PYGZpc{}zu bytes.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{student}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{The difference is due to memory padding added by the compiler for alignment.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Why the padding?}
+\PYG{c+cm}{    Imagine memory as a series of numbered boxes. A `double` (8 bytes) is most}
+\PYG{c+cm}{    efficiently accessed if it starts at a memory address divisible by 8.}
+\PYG{c+cm}{    \PYGZhy{} firstName[5] takes 5 bytes.}
+\PYG{c+cm}{    \PYGZhy{} lastName[5] takes another 5 bytes. Total = 10 bytes.}
+\PYG{c+cm}{    \PYGZhy{} The next member, `birthYear` (an int), needs to be aligned. Let\PYGZsq{}s say it}
+\PYG{c+cm}{      starts at address 12 (the compiler adds 2 bytes of padding). It takes 4 bytes. Total = 16.}
+\PYG{c+cm}{    \PYGZhy{} The next member, `aveGrade` (a double), needs to be aligned to an address}
+\PYG{c+cm}{      divisible by 8. The current address is 16, which is divisible by 8, so no}
+\PYG{c+cm}{      padding is needed here. It takes 8 bytes. Total = 24.}
+\PYG{c+cm}{    \PYGZhy{} The compiler might even add padding at the *end* of the struct to ensure}
+\PYG{c+cm}{      that in an array of these structs, each one starts on a properly aligned}
+\PYG{c+cm}{      boundary. So the final size might be 24 or even 32.}
+
+\PYG{c+cm}{    The exact rules for padding are compiler\PYGZhy{}dependent, but the principle is the same.}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

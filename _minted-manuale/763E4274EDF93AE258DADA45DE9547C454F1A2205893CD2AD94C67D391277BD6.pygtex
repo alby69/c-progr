@@ -1,0 +1,95 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Functions \PYGZhy{} Pass\PYGZhy{}by\PYGZhy{}Value vs. Pass\PYGZhy{}by\PYGZhy{}Reference}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates a critical concept: how to make a function modify}
+\PYG{c+cm}{    a variable that belongs to another function (in this case, `main`).}
+
+\PYG{c+cm}{    In C, arguments are \PYGZdq{}passed by value\PYGZdq{}. This means when you pass a variable}
+\PYG{c+cm}{    like `a` to a function, the function gets a *copy* of its value. Any changes}
+\PYG{c+cm}{    to that copy inside the function do not affect the original variable in `main`.}
+
+\PYG{c+cm}{    To get around this, we use \PYGZdq{}pass\PYGZhy{}by\PYGZhy{}reference\PYGZdq{}. We don\PYGZsq{}t pass the variable\PYGZsq{}s}
+\PYG{c+cm}{    value; instead, we pass its *memory address* using a pointer. The function}
+\PYG{c+cm}{    can then use this address to find and modify the original variable.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Pointers as function arguments.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZdq{}address\PYGZhy{}of\PYGZdq{} operator (\PYGZam{}) to get a variable\PYGZsq{}s address.}
+\PYG{c+cm}{    \PYGZhy{} The \PYGZdq{}dereference\PYGZdq{} operator (*) to access the value at an address.}
+\PYG{c+cm}{    \PYGZhy{} How pointers enable a function to \PYGZdq{}return\PYGZdq{} a value through its arguments.}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function Prototype:}
+\PYG{c+c1}{// Notice the third argument: `int *`. This declares the argument as a}
+\PYG{c+c1}{// pointer to an integer. It\PYGZsq{}s a variable that will hold the memory address}
+\PYG{c+c1}{// of another integer variable.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{add}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{sum\PYGZus{}pointer}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{num1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sum}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Please enter two integers: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num1}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{num2}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Calling the function:}
+\PYG{+w}{    }\PYG{c+c1}{// We pass num1 and num2 by value (the function gets copies of them).}
+\PYG{+w}{    }\PYG{c+c1}{// For the third argument, we use the address\PYGZhy{}of operator (\PYGZam{}) to pass the}
+\PYG{+w}{    }\PYG{c+c1}{// *memory address* of our \PYGZsq{}sum\PYGZsq{} variable. We are not passing the value of}
+\PYG{+w}{    }\PYG{c+c1}{// sum (which is garbage at this point), but its location in memory.}
+\PYG{+w}{    }\PYG{n}{add}\PYG{p}{(}\PYG{n}{num1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num2}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{sum}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Because the \PYGZsq{}add\PYGZsq{} function had the address of \PYGZsq{}sum\PYGZsq{}, it was able to}
+\PYG{+w}{    }\PYG{c+c1}{// modify it directly. When we print \PYGZsq{}sum\PYGZsq{} here, it will have the new}
+\PYG{+w}{    }\PYG{c+c1}{// value calculated by the function.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Back in main: \PYGZpc{}d + \PYGZpc{}d = \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sum}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: add}
+\PYG{c+cm}{    Purpose: Calculates the sum of two integers and stores the result in a}
+\PYG{c+cm}{             variable provided by the caller via a pointer.}
+\PYG{c+cm}{    Parameters:}
+\PYG{c+cm}{        \PYGZhy{} a: The first integer (passed by value).}
+\PYG{c+cm}{        \PYGZhy{} b: The second integer (passed by value).}
+\PYG{c+cm}{        \PYGZhy{} sum\PYGZus{}pointer: A pointer holding the memory address of the integer}
+\PYG{c+cm}{                       variable where the result should be stored.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{add}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{sum\PYGZus{}pointer}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Inside add(): The calculated sum is \PYGZpc{}d.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Modifying the variable in main():}
+\PYG{+w}{    }\PYG{c+c1}{// We use the dereference operator (*) on the pointer.}
+\PYG{+w}{    }\PYG{c+c1}{// `*sum\PYGZus{}pointer` means \PYGZdq{}the value at the address that sum\PYGZus{}pointer holds\PYGZdq{}.}
+\PYG{+w}{    }\PYG{c+c1}{// By assigning to `*sum\PYGZus{}pointer`, we are not changing the pointer itself,}
+\PYG{+w}{    }\PYG{c+c1}{// but rather the value in the memory location it points to. This directly}
+\PYG{+w}{    }\PYG{c+c1}{// changes the \PYGZsq{}sum\PYGZsq{} variable back in the main() function.}
+\PYG{+w}{    }\PYG{o}{*}\PYG{n}{sum\PYGZus{}pointer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Inside add(): Updated the value in main() via the pointer.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  What would happen if you changed the `add` function to accept `int sum`}
+\PYG{c+cm}{        instead of `int *sum\PYGZus{}pointer` and tried to do `sum = result;`? Try it!}
+\PYG{c+cm}{        You\PYGZsq{}ll find that the \PYGZsq{}sum\PYGZsq{} variable in main() is never updated, because}
+\PYG{c+cm}{        the function only received a copy of its initial (garbage) value.}
+\PYG{c+cm}{    2.  Write a function `void getMinMax(int x, int y, int *min, int *max)` that}
+\PYG{c+cm}{        takes two integers and \PYGZdq{}returns\PYGZdq{} both the minimum and the maximum value}
+\PYG{c+cm}{        through pointers. This is a classic example of why pass\PYGZhy{}by\PYGZhy{}reference is}
+\PYG{c+cm}{        so useful, as a C function can only have one direct return value.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

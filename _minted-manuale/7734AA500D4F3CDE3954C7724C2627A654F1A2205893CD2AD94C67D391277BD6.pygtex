@@ -1,0 +1,111 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Structures \PYGZhy{} Returning a Struct from a Function}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program introduces a new and powerful concept: functions that return}
+\PYG{c+cm}{    an entire `struct`.}
+
+\PYG{c+cm}{    So far, our functions that modify structs have taken a pointer to the original}
+\PYG{c+cm}{    struct. An alternative design pattern is to have the function take a `struct`}
+\PYG{c+cm}{    by value (as a copy), perform some calculations, and then return a *new*,}
+\PYG{c+cm}{    modified `struct`.}
+
+\PYG{c+cm}{    This program defines a `date` struct and a function `advanceDay` that takes}
+\PYG{c+cm}{    one date and returns a new `date` struct representing the following day.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Declaring a function that returns a `struct`.}
+\PYG{c+cm}{    \PYGZhy{} Returning a `struct` variable from a function.}
+\PYG{c+cm}{    \PYGZhy{} A practical algorithm for date manipulation.}
+\PYG{c+cm}{    \PYGZhy{} The limitations of the algorithm (e.g., leap years).}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{year}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{month}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{day}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{c+c1}{// Function Prototypes}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readDate}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{date\PYGZus{}ptr}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printDate}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{);}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{advanceDay}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{today}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{tomorrow}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Enter today\PYGZsq{}s date (YYYY MM DD): \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{readDate}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{today}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Today\PYGZsq{}s date is: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printDate}\PYG{p}{(}\PYG{n}{today}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// The advanceDay function returns a whole new struct, which we assign to \PYGZsq{}tomorrow\PYGZsq{}.}
+\PYG{+w}{    }\PYG{n}{tomorrow}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{advanceDay}\PYG{p}{(}\PYG{n}{today}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Tomorrow\PYGZsq{}s date is: \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printDate}\PYG{p}{(}\PYG{n}{tomorrow}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{readDate}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{date\PYGZus{}ptr}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d \PYGZpc{}d \PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{date\PYGZus{}ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{year}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{date\PYGZus{}ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{month}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{date\PYGZus{}ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{day}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printDate}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// `\PYGZpc{}02d` is a format specifier that pads a number with a leading zero if}
+\PYG{+w}{    }\PYG{c+c1}{// it is less than 2 digits wide. Perfect for dates and times.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}04d/\PYGZpc{}02d/\PYGZpc{}02d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{year}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{month}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{day}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: advanceDay}
+\PYG{c+cm}{    Purpose: Calculates the date of the day after the one provided.}
+\PYG{c+cm}{    Note: This is a simplified version that does not account for leap years.}
+\PYG{c+cm}{*/}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{advanceDay}\PYG{p}{(}\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{date}\PYG{+w}{ }\PYG{n}{next\PYGZus{}day}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// An array to hold the number of days in each month. Index 0 is unused.}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{days\PYGZus{}in\PYGZus{}month}\PYG{p}{[]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31}\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// Case 1: It\PYGZsq{}s not the end of the month.}
+\PYG{+w}{    }\PYG{c+c1}{// We simply increment the day and keep the month and year the same.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{d}\PYG{p}{.}\PYG{n}{day}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{days\PYGZus{}in\PYGZus{}month}\PYG{p}{[}\PYG{n}{d}\PYG{p}{.}\PYG{n}{month}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{day}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{day}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{month}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{month}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{year}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{year}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// Case 2: It IS the end of the month, but not the end of the year.}
+\PYG{+w}{    }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{d}\PYG{p}{.}\PYG{n}{month}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{day}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{month}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{month}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{year}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{year}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// Case 3: It\PYGZsq{}s December 31st.}
+\PYG{+w}{    }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// d.month == 12}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{day}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{month}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{next\PYGZus{}day}\PYG{p}{.}\PYG{n}{year}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{year}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{next\PYGZus{}day}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  The current `advanceDay` function doesn\PYGZsq{}t handle leap years (where}
+\PYG{c+cm}{        February has 29 days). A year is a leap year if it is divisible by 4,}
+\PYG{c+cm}{        unless it is divisible by 100 but not by 400. Can you add this logic?}
+\PYG{c+cm}{        You would need to check `d.year` inside the `advanceDay` function and}
+\PYG{c+cm}{        adjust `days\PYGZus{}in\PYGZus{}month[2]` accordingly.}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}

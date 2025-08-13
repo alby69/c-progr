@@ -1,0 +1,109 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Tutorial: Functions \PYGZhy{} Decomposition and Reusability}
+\PYG{c+cm}{    ================================================================================}
+
+\PYG{c+cm}{    This program demonstrates one of the most powerful concepts in programming:}
+\PYG{c+cm}{    decomposition. We break down a complex problem (drawing shapes) into smaller,}
+\PYG{c+cm}{    manageable, and reusable pieces called functions.}
+
+\PYG{c+cm}{    Notice how the `printTriangle` and `printRectangle` functions both reuse}
+\PYG{c+cm}{    the `printLine` function. This avoids code duplication and makes the program}
+\PYG{c+cm}{    easier to understand and maintain.}
+
+\PYG{c+cm}{    Concepts Covered:}
+\PYG{c+cm}{    \PYGZhy{} Defining \PYGZsq{}void\PYGZsq{} functions (functions that don\PYGZsq{}t return a value).}
+\PYG{c+cm}{    \PYGZhy{} Passing arguments to functions.}
+\PYG{c+cm}{    \PYGZhy{} Function prototyping.}
+\PYG{c+cm}{    \PYGZhy{} Reusing functions (one function calling another).}
+\PYG{c+cm}{*/}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+
+\PYG{c+c1}{// Function Prototypes:}
+\PYG{c+c1}{// We declare the functions here so that `main` knows about them before they are}
+\PYG{c+c1}{// called. This allows us to define the functions in any order we want after `main`.}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printLine}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printTriangle}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{);}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printRectangle}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{);}
+
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Printing a Line \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many columns would you like? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{nCols}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printLine}\PYG{p}{(}\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}X\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Printing a Triangle \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}How many lines would you like? \PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{scanf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n}{nLines}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printTriangle}\PYG{p}{(}\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}*\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Printing a Rectangle \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// We can reuse the nLines and nCols variables from before.}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Using \PYGZpc{}d lines and \PYGZpc{}d columns.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{printRectangle}\PYG{p}{(}\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+sc}{\PYGZsq{}\PYGZsh{}\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printLine}
+\PYG{c+cm}{    Purpose: Prints a single line of characters of a specified length and pattern.}
+\PYG{c+cm}{    Parameters:}
+\PYG{c+cm}{        \PYGZhy{} nCols: The number of characters to print.}
+\PYG{c+cm}{        \PYGZhy{} pattern: The character to use for printing.}
+\PYG{c+cm}{    Returns: void (nothing)}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printLine}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}c\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Move to the next line after printing the characters.}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printTriangle}
+\PYG{c+cm}{    Purpose: Prints a right\PYGZhy{}angled triangle of a specified height.}
+\PYG{c+cm}{    This function *calls* `printLine` repeatedly to do its work.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printTriangle}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// The outer loop controls which line we are on (from 1 to nLines).}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{line}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{line}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{line}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// For each line, we call printLine, telling it to print \PYGZsq{}line\PYGZsq{} number of characters.}
+\PYG{+w}{        }\PYG{c+c1}{// Line 1 prints 1 char, Line 2 prints 2 chars, and so on.}
+\PYG{+w}{        }\PYG{n}{printLine}\PYG{p}{(}\PYG{n}{line}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    Function: printRectangle}
+\PYG{c+cm}{    Purpose: Prints a solid rectangle of a specified height and width.}
+\PYG{c+cm}{    This function also *calls* `printLine` repeatedly.}
+\PYG{c+cm}{*/}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printRectangle}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{nLines}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// For each line of the rectangle, we simply print a full line of characters.}
+\PYG{+w}{        }\PYG{n}{printLine}\PYG{p}{(}\PYG{n}{nCols}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pattern}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    Further Exploration:}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{    1.  Can you create a new function `printSquare(int size, char pattern)` that}
+\PYG{c+cm}{        calls `printRectangle`? This shows another layer of decomposition.}
+\PYG{c+cm}{    2.  Create a function `printHollowRectangle(int nLines, int nCols, char pattern)`.}
+\PYG{c+cm}{        For this, you\PYGZsq{}ll need to modify the logic inside. The top and bottom lines}
+\PYG{c+cm}{        will be solid, but the middle lines will only have the pattern character}
+\PYG{c+cm}{        at the start and end, with spaces in between. This is a good challenge!}
+\PYG{c+cm}{    ================================================================================}
+\PYG{c+cm}{*/}
+
+\end{Verbatim}
