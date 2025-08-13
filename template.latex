@@ -1,0 +1,101 @@
+% ============================================================
+%  Template LaTeX per Manuale C
+%  Con capitoli automatici, evidenziazione codice C, copertina
+% ============================================================
+
+\documentclass[a4paper,11pt,oneside]{book}
+
+% ----------- Pacchetti di base -----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{setspace}
+\onehalfspacing
+
+% ----------- Font professionali ----------
+\usepackage{fontspec} % richiede XeLaTeX o LuaLaTeX
+\setmainfont{Fira Sans} % testo
+\setmonofont{Fira Code} % codice
+
+% ----------- Colori e codice --------------
+\usepackage{xcolor}
+\definecolor{codebg}{RGB}{248,248,248}
+\usepackage{minted} % evidenziazione sintassi
+\setminted{
+    frame=single,
+    framesep=3mm,
+    fontsize=\small,
+    bgcolor=codebg,
+    breaklines=false,
+    linenos=true,
+    numbersep=5pt
+}
+
+% ----------- Hyperlink e indice -----------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+\usepackage{tocloft}
+
+% ----------- Grafica copertina ------------
+\usepackage{graphicx}
+\usepackage{pdfpages}
+
+% ----------- Per evitare spezzatura codice -----------
+\usepackage{float}
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Verbatim}{Verbatim}{breaklines=false}
+
+% ============================================================
+%                         DOCUMENTO
+% ============================================================
+
+\begin{document}
+
+% ----------- COPERTINA ------------
+\begin{titlepage}
+    \centering
+    % Inserisci qui il file immagine della copertina, formato PNG/JPG/PDF
+    % Esempio: \includegraphics[width=\textwidth]{copertina.png}
+    \vspace*{4cm}
+    {\Huge\bfseries Manuale di Programmazione in C\par}
+    \vspace{1cm}
+    {\Large Basato sul repository \texttt{c-progr}\par}
+    \vfill
+    {\large Autore: Tuo Nome\par}
+    {\large \today\par}
+\end{titlepage}
+
+% ----------- INDICI ------------
+\frontmatter
+\tableofcontents
+\listoflistings
+\mainmatter
+
+% ----------- CAPITOLI AUTOMATICI ------------
+% Qui includi i capitoli manualmente nell'ordine desiderato
+% Puoi generare i .tex per ogni cartella con script o a mano
+
+\chapter{C Basics}
+\inputminted{c}{01_C_Basics/example.c}
+
+\chapter{Control Flow}
+\inputminted{c}{02_Control_Flow/if_else.c}
+\inputminted{c}{02_Control_Flow/for_loop.c}
+
+\chapter{Functions}
+\inputminted{c}{03_Functions/functions.c}
+
+% ...continua per ogni cartella...
+
+% ----------- FINE ------------
+\backmatter
+\chapter*{Licenza}
+Il contenuto di questo manuale è distribuito secondo la licenza del repository originale.
+
+\end{document}
