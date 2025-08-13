@@ -6,7 +6,7 @@ import subprocess
 from datetime import datetime
 
 # ======= CONFIGURAZIONE =======
-REPO_PATH = "/home/aabate/Documenti/PROGR/c-progr"  # <-- CAMBIA con il path locale
+REPO_PATH = "/home/aabate/Documenti/PROGR/c-progr"  # <-- change your local path
 OUTPUT_TEX = "template.tex"
 OUTPUT_PDF = "c_programming.pdf"
 TITOLO = "C Programming"
