@@ -7,9 +7,9 @@ from datetime import datetime
 
 # ======= CONFIGURAZIONE =======
 REPO_PATH = "/home/aabate/Documenti/PROGR/c-progr"  # <-- CAMBIA con il path locale
-OUTPUT_TEX = "manuale.tex"
-OUTPUT_PDF = "manuale.pdf"
-TITOLO = "Manuale di Programmazione in C"
+OUTPUT_TEX = "template.tex"
+OUTPUT_PDF = "c_programming.pdf"
+TITOLO = "C Programming"
 AUTORE = "Alberto Abate"
 DATA = datetime.today().strftime("%d %B %Y")
 
