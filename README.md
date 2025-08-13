@@ -27,10 +27,10 @@ Before you can generate the PDF, you must have the following software installed 
 
 This is the most important step. You must tell the script where to find the tutorial files on your local machine.
 
-1.  Open the `genera_manual.py` file in a text editor.
+1.  Open the `create_book.py` file in a text editor.
 2.  Find the following line at the top of the script:
     ```python
-    REPO_PATH = "/home/aabate/Documenti/PROGR/c-progr"  # <-- CAMBIA con il path locale
+    REPO_PATH = "/home/aabate/Documenti/PROGR/c-progr"  # <-- change your local path
     ```
 3.  **Change the path** inside the quotes to the **full, absolute path** of this `c-progr` repository folder on your computer.
 
@@ -42,7 +42,7 @@ Once the prerequisites are installed and the path is configured:
 2.  Navigate into the root directory of this `c-progr` repository.
 3.  Run the script with the following command:
     ```sh
-    python3 genera_manual.py
+    python3 create_book.py
     ```
 
-The script will print status messages as it works. It will first create a `manuale.tex` file, then compile it twice using `xelatex`. If everything is successful, you will find a new file named `manuale.pdf` in this directory.
+The script will print status messages as it works. It will first create a `template.tex` file, then compile it twice using `xelatex`. If everything is successful, you will find a new file named `c_programming.pdf` in this directory.
